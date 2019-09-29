@@ -1,0 +1,17 @@
+{
+  "name": "calender",
+  "version": "1.0.0",
+  "description": "calender",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^6.0.10"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startc": ".\\node_modules\\electron\\dist\\electron.exe .",
+    "start": "electron ."
+  },
+  "author": "David E. Berkheimer",
+  "license": "ISC"
+}

@@ -1,0 +1,161 @@
+/* Reset */
+* {
+  /* padding will not add to the ACTUALLY WIDTH OF THE BOX */
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+}
+/* Main Styling */
+html,
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.7em;
+}
+a {
+  text-decoration: none;
+}
+/* Create Variables */
+:root {
+  --primary-color: #0f0;
+  --secondary-color: #00f;
+}
+/* use Variables */
+h1 {
+  color: var(--primary-color);
+  text-shadow: 2px 2px var(--secondary-color);
+  text-align: center;
+}
+
+h6 {
+  margin: 10px;
+  text-align: center;
+  background-color: #4e5357;
+  border-radius: 15px;
+  padding: 0.45rem;
+  color: white;
+}
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 3px;
+  margin: 3px;
+}
+
+nav ul li {
+  list-style: none;
+  background-color: #d0215cbd;
+  color: rgb(0, 0, 0);
+  padding: 3px 10px;
+  margin: 4px 10px;
+  border-radius: 10px 10px 0px 0px;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+nav ul li:hover {
+  color: rgb(255, 255, 255);
+}
+.success,
+.error {
+  color: white;
+  padding: 20px;
+  text-align: center;
+  width: 50%;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.success {
+  background: green;
+}
+
+.error {
+  background: red;
+}
+.active {
+  color: white;
+}
+/* #monthHeading,
+#transactionHeading {
+  display: none;
+} */
+#monthHeading,
+#transactionHeading,
+#myForm,
+#settingsForm {
+  display: none;
+}
+#myForm {
+  max-width: 88%;
+  margin: 0 auto;
+}
+#taxDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#taxInput {
+  margin: 10px 10px;
+}
+#taxSpan {
+  margin: 0 10px;
+}
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.red {
+  color: red;
+}
+
+.deleteTrans {
+  color: red;
+  margin: 12px;
+}
+
+nav li.transaction:nth-child(odd) {
+  background-color: #b2b2b2;
+}
+nav li.transaction:nth-child(even) {
+  background-color: #e4e2e2;
+}
+nav li.transaction:hover {
+  color: #e217a2;
+}
+/* settings form  */
+#settingsForm {
+  background-color: white;
+}
+​ input[type="radio"] {
+  margin: 10px;
+  font-size: 16px;
+}
+.deleteFile {
+  color: red;
+  margin: 12px;
+}
+.autoLoad {
+  color: #007bff;
+  font-size: 14px;
+}
+#settingsForm {
+  border: 20px solid white;
+  border-radius: 20px;
+}
+.setFlex {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  background-color: #aea9ad;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 22px;
+}
