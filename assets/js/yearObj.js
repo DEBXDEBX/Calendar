@@ -3,7 +3,7 @@ class YearObject {
     this.name = name;
     this.fileNamePath = fileNamePath;
     this.arrayOfMonthObjects = array;
-    this.fileType = "ElectronWeightTracker2019September";
+    this.fileType = "ElectronCalender2019September";
   }
 
   // Method

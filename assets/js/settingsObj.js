@@ -1,7 +1,7 @@
 class SettingsObj {
   constructor() {
     this.fontSize = "normal";
-    this.type = "weightTracker";
+    this.type = "calender";
     this.filePathArray = [];
     this.autoLoad = false;
   } // End constructor

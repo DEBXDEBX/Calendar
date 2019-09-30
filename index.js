@@ -135,7 +135,7 @@ function loadYear() {
         }
 
         if (data) {
-          if (data.fileType === "ElectronWeightTracker2019September") {
+          if (data.fileType === "ElectronCalender2019September") {
             console.log("This is a valid file");
             // set filepath: This is in case you moved your file
             data.fileNamePath = filepath;
@@ -145,7 +145,7 @@ function loadYear() {
             mainWindow.webContents.send("yearObj:load", data);
           } else {
             let message =
-              "This is not a valid ElectronWeightTracker2019September file";
+              "This is not a valid ElectronCalender2019September file";
             let msgType = "error";
             mainWindow.webContents.send("Display:showAlert", {
               message,
