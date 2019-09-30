@@ -1,6 +1,6 @@
 class MonthObject {
-  constructor(name, arrayOfTransactions = []) {
+  constructor(name, arrayOfNotes = []) {
     this.name = name;
-    this.arrayOfTransactions = arrayOfTransactions;
+    this.arrayOfNotes = arrayOfNotes;
   }
 } // End MonthObject class

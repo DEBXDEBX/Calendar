@@ -45,14 +45,20 @@ class Display {
     this.elements.monthList.innerHTML = "";
   } // End clearYearDisplay()
 
+  //Method
+  clearNoteDisplay() {
+    this.elements.noteList.innerHTML = "";
+  } // End clearNoteDisplay()
+
   // Method
   paintYearTabs(mapedArray) {
     this.displayNone(this.elements.monthHeading);
     this.displayNone(this.elements.monthList);
-    this.displayNone(this.elements.transactionHeading);
-    this.displayNone(this.elements.transactionList);
-    this.displayNone(this.elements.totalH1);
-    this.displayNone(this.elements.myForm);
+    this.clearMonthDisplay();
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.noteList);
+    this.clearNoteDisplay();
+    this.displayNone(this.elements.noteForm);
     this.displayBlock(this.elements.yearHeading);
     this.displayBlock(this.elements.yearList);
     this.clearYearDisplay();
@@ -68,7 +74,7 @@ class Display {
     // color tabs
     let tabList = document.getElementsByClassName("year");
     this.colorSetOfTabs(tabList);
-  } // End paintFileCabTabs(mapedArray)
+  } // End paintYearTabs(mapedArray)
 
   // Method
   paintMonthTabs(mapedArray) {
@@ -80,7 +86,6 @@ class Display {
     this.displayNone(this.elements.monthList);
     this.displayBlock(this.elements.monthList);
     this.displayNone(this.elements.monthHeading);
-    this.displayNone(this.elements.myForm);
     this.displayBlock(this.elements.monthHeading);
 
     // this will paint all month tabs
@@ -154,4 +159,55 @@ class Display {
     });
     this.elements.autoLoadList.innerHTML = html;
   }
+
+  //Method
+  showNoteHeading() {
+    this.displayBlock(this.elements.nHeading);
+  }
+
+  //Method
+  showNoteForm() {
+    this.displayBlock(this.elements.noteForm);
+  }
+
+  //Method
+  paintNotes(deleteMode, noteArray) {
+    this.displayNone(this.elements.nHeading);
+    this.displayBlock(this.elements.nHeading);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.noteList);
+    // clear the div
+    this.clearNoteDisplay();
+    // build div
+    noteArray.forEach((note, index) => {
+      // if delete mode is true, build div with head of the note to delete and move note
+      if (deleteMode) {
+        let html = "";
+        let newHead = document.createElement("div");
+        html += `<h3 data-index="${index}" class="head"><span title='Move Down' class='moveUp'>&uArr;</span><i
+      title="Delete Note"
+      class="delete-item fas fa-trash-alt"
+    ></i
+  ><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
+        newHead.innerHTML = html;
+        // insert the head of the note
+        this.elements.noteList.appendChild(newHead);
+      } // End Head of Note
+      //######################## Now build the Note #################################
+      let newElement = document.createElement("h4");
+      newElement.className = "note";
+      newElement.setAttribute("data-index", `${index}`);
+      if (note.imagePath) {
+        newElement.appendChild(
+          document.createTextNode(`${note.text}\n\n ${note.imagePath}`)
+        );
+      } else {
+        newElement.appendChild(document.createTextNode(`${note.text}`));
+      }
+      // insert the note
+      this.elements.noteList.appendChild(newElement);
+    });
+
+    this.displayBlock(this.elements.noteList);
+  } // paintNotes(deleteMode, noteArray)
 } // End Display class

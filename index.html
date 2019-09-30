@@ -68,7 +68,9 @@
         <audio id="cancelAudio">
           <source src="assets/sound/cancel.wav" type="audio/wav" />
         </audio>
-
+        <audio id="clickAudio">
+          <source src="assets/sound/click.wav" type="audio/wav" />
+        </audio>
     <h1>Calender</h1>
     <header>
       <h6 id="yearHeading">Year</h6>
@@ -89,66 +91,6 @@
       </nav>
     </section>
 
-    <h6 id="transactionHeading">Transactions</h6>
-
-    <nav>
-      <ul id="transactionList"></ul>
-    </nav>
-
-    <div id="totalDiv">
-      <h1 id="totalH1"></h1>
-    </div>
-
-    <form id="myForm">
-      <div class="form-group">
-        <input
-          id="date"
-          type="text"
-          autofocus
-          class="form-control"
-          placeholder="Date"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="storeItem"
-          type="text"
-          autofocus
-          class="form-control"
-          placeholder="Store/Item"
-        />
-      </div>
-
-      <div class="form-group">
-        <input
-          id="price"
-          type="text"
-          autofocus
-          class="form-control"
-          placeholder="price"
-        />
-      </div>
-
-      <div id="taxDiv" class="form-group">
-        <input id="taxInput" name="tax" type="checkbox" autofocus class="" />
-        <label for="tax">add tax<span id="taxSpan"></span></label>
-      </div>
-
-      <div class="form-group">
-        <input
-          id="transactionBtn"
-          class="btn btn-success form-control"
-          type="submit"
-          value="Add Transaction"
-        />
-      </div>
-      <div class="form-group">
-        <button id="clear" class="btn btn-dark form-control" type="button">
-          Clear
-        </button>
-      </div>
-    </form>
 
 
     
@@ -210,6 +152,67 @@
         </button>
       </div>
     </form>
+
+    <h6 id="headingNote">
+      Notes
+      <span id="nadd"
+        ><i data-toggle="tooltip" title="Add Note" class="far fa-map"></i
+      ></span>
+    </h6>
+    <form id="noteForm">
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          autofocus
+          wrap="hard"
+          placeholder="Enter notes here!"
+          id="myTextArea"
+          rows="10"
+          cols="200"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <input
+          id="noteAdd"
+          type="submit"
+          class="btn btn-primary form-control"
+          value="Add Note"
+        />
+      </div>
+
+      <div class="form-group">
+        <button
+          id="noteClearTextArea"
+          class="btn btn-dark form-control"
+          type="button"
+        >
+          Clear
+        </button>
+      </div>
+
+      <div class="form-group">
+        <button id="noteDate" class="btn btn-info form-control" type="button">
+          Add Date
+        </button>
+      </div>
+
+      <div class="form-group">
+        <button
+          id="noteCancel"
+          class="btn btn-warning form-control"
+          type="button"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+
+    <section id="noteList">
+      <!-- <h1>Note's go here</h1> -->
+    </section>
+
+    <div class="addSpace"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script
@@ -234,7 +237,7 @@
     <script type="text/javascript" src="assets/js/elements.js"></script>
     <script type="text/javascript" src="assets/js/monthObj.js"></script>
     <script type="text/javascript" src="assets/js/yearObj.js"></script>
-    <!-- <script type="text/javascript" src="assets/js/transaction.js"></script> -->
+    <script type="text/javascript" src="assets/js/note.js"></script>
     <script type="text/javascript" src="assets/js/settingsObj.js"></script>
     <script type="text/javascript" src="assets/js/settingsStorage.js"></script>
     <script type="text/javascript" src="assets/js/script.js"></script>

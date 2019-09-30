@@ -22,6 +22,7 @@ const warningNameTakenAudio = document.querySelector("#warningNameTakenAudio");
 const tabAudio = document.querySelector("#tabAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
+const clickAudio = document.querySelector("#clickAudio");
 //Global variable's
 // This is the Main array that holds all the year objects
 const arrayOfYearObjs = [];
@@ -29,7 +30,10 @@ const arrayOfYearObjs = [];
 const el = new Elements();
 // create display object
 const display = new Display(el, $);
-
+//Theme current
+let currentTheme = "Dark";
+//Delete Mode
+let deleteMode = false;
 // create year index
 let yearIndex = -243;
 // create month index
@@ -69,6 +73,16 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
+
+// method
+function renderNotes() {
+  // send the note array to the Display
+  display.paintNotes(
+    deleteMode,
+    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
+  );
+}
+
 // Sort an array by it's name
 function sortArrayByName(array) {
   array.sort(function(a, b) {
@@ -469,7 +483,75 @@ el.monthList.addEventListener("click", e => {
     return;
   }
   tabAudio.play();
+  display.showNoteHeading();
 });
+
+//Note Code**************************************************
+
+// when You click the + in the Note Heading
+el.addShowFormNote.addEventListener("click", e => {
+  clickAudio.play();
+  display.showNoteForm();
+}); // End
+
+// when You click the add note btn in the note form
+document.querySelector("#noteAdd").addEventListener("click", e => {
+  e.preventDefault();
+  debugger;
+  // create note
+  let noteText = el.textArea.value.trim();
+  console.log(noteText);
+  // check if text is empty
+  if (noteText === "") {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter note in the text area!", "error");
+    return;
+  }
+  // create new note
+  let newNote = new Note(noteText);
+  // push note into note array
+  console.log(yearIndex);
+  console.log(monthIndex);
+
+  console.log(arrayOfYearObjs);
+  console.log(arrayOfYearObjs[yearIndex].arrayOfMonthObjects);
+  console.log(
+    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
+  );
+
+  arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes.push(
+    newNote
+  );
+
+  // save year object
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+
+  addAudio.play();
+  display.showAlert("A new note was added", "success", 900);
+
+  renderNotes();
+}); // End
+
+// when You click the cancel btn in the note form
+document.querySelector("#noteCancel").addEventListener("click", e => {
+  cancelAudio.play();
+  el.noteForm.reset();
+  display.displayNone(el.noteForm);
+}); // End
+
+// when You click the clear btn in the note form
+document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+  btnAudio.play();
+  // clear the text Area
+  el.textArea.value = "";
+}); //End
+
+// when you click on the add Date btn in the note form
+document.querySelector("#noteDate").addEventListener("click", e => {
+  btnAudio.play();
+  let date = new Date();
+  el.textArea.value = date.toDateString();
+}); //End
 
 // ***********************************************************
 // settings
