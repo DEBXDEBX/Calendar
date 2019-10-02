@@ -52,13 +52,17 @@ class Display {
 
   // Method
   paintYearTabs(mapedArray) {
+    console.log(this.elements.nHeading);
+    console.log(this.elements.noteList);
+    this.clearMonthDisplay();
     this.displayNone(this.elements.monthHeading);
     this.displayNone(this.elements.monthList);
-    this.clearMonthDisplay();
+
+    this.clearNoteDisplay();
     this.displayNone(this.elements.nHeading);
     this.displayNone(this.elements.noteList);
-    this.clearNoteDisplay();
     this.displayNone(this.elements.noteForm);
+
     this.displayBlock(this.elements.yearHeading);
     this.displayBlock(this.elements.yearList);
     this.clearYearDisplay();
@@ -79,14 +83,15 @@ class Display {
   // Method
   paintMonthTabs(mapedArray) {
     this.clearMonthDisplay();
-    // this.clearTransactionDisplay();
-    // this.displayNone(this.elements.transactionHeading);
-    // this.displayNone(this.elements.transactionList);
 
     this.displayNone(this.elements.monthList);
     this.displayBlock(this.elements.monthList);
     this.displayNone(this.elements.monthHeading);
     this.displayBlock(this.elements.monthHeading);
+    this.displayNone(this.elements.nHeading);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.noteList);
+    this.clearNoteDisplay();
 
     // this will paint all month tabs
     // make variable for html
@@ -138,6 +143,9 @@ class Display {
     this.displayNone(this.elements.transactionHeading);
     this.displayNone(this.elements.myForm);
     this.displayNone(this.elements.yearHeading);
+    this.displayNone(this.elements.noteList);
+    this.displayNone(this.elements.noteForm);
+    this.displayNone(this.elements.nHeading);
     //show settings form
     this.displayBlock(this.elements.settingsForm);
   } // End showSettingsForm()

@@ -139,3 +139,52 @@ h6 > span {
   padding: 2rem;
   border-radius: 22px;
 }
+h4 {
+  margin: 2px 0px 40px 2px;
+  background-color: #0f1313;
+  padding: 3px;
+  color: #2de11d;
+}
+#noteList {
+  margin: 10px auto;
+  width: 98%;
+}
+#myTextArea {
+  margin: 10px auto;
+  width: 98%;
+  border: 1px solid;
+  padding: 10px;
+  border-radius: 20px;
+}
+.note {
+  white-space: pre;
+  border-radius: 20px;
+  padding: 7px;
+}
+.delete-item {
+  margin: 0 16px;
+  color: #161313;
+}
+.delete-item:hover {
+  margin: 0 16px;
+  color: white;
+}
+.moveUp {
+  color: green;
+  display: inline;
+}
+.moveDown {
+  color: blue;
+  display: inline;
+}
+h3 {
+  text-align: center;
+  margin: 20 0 0 0;
+}
+.trash {
+  margin-left: 16px;
+  color: black;
+}
+.trash:hover {
+  color: white;
+}

@@ -33,7 +33,7 @@ const display = new Display(el, $);
 //Theme current
 let currentTheme = "Dark";
 //Delete Mode
-let deleteMode = false;
+let deleteMode = true;
 // create year index
 let yearIndex = -243;
 // create month index
@@ -484,6 +484,7 @@ el.monthList.addEventListener("click", e => {
   }
   tabAudio.play();
   display.showNoteHeading();
+  renderNotes();
 });
 
 //Note Code**************************************************
