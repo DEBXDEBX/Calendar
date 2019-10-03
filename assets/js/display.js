@@ -52,8 +52,6 @@ class Display {
 
   // Method
   paintYearTabs(mapedArray) {
-    console.log(this.elements.nHeading);
-    console.log(this.elements.noteList);
     this.clearMonthDisplay();
     this.displayNone(this.elements.monthHeading);
     this.displayNone(this.elements.monthList);

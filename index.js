@@ -54,7 +54,6 @@ function createYear() {
 
 // this listens for the add window
 ipcMain.on("year:add", (event, name) => {
-  console.log(name);
   // close the addWindow
   addWindow.close();
   // this is for extsions

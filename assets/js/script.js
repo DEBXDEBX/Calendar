@@ -38,10 +38,13 @@ let deleteMode = false;
 let yearIndex = -243;
 // create month index
 let monthIndex = -243;
+// current note Index
+let nI = -243;
 // this is for the fontSize
 let root = document.querySelector(":root");
 // auto load check box
 let checkBox = document.querySelector("#autoLoad");
+let myBody = document.querySelector("body");
 // temp hold for array
 let settingsArrayContainer;
 //The start of program exicution.
@@ -205,6 +208,18 @@ function loadUpSettingsForm() {
       checkBox.checked = false;
     }
 
+    // check the right theme
+    switch (settings.theme) {
+      case "Dark":
+        document.querySelector("#Dark").checked = true;
+        break;
+      case "Light":
+        document.querySelector("#Light").checked = true;
+        break;
+      default:
+        console.log("No valid theme");
+    }
+
     // check the right font size
     switch (settings.fontSize) {
       case "x-small":
@@ -254,6 +269,27 @@ function applySettings(settings) {
     default:
       console.log("No valid font-size");
   }
+
+  if (deleteMode === false) {
+    // set the theme
+    switch (settings.theme) {
+      case "Dark":
+        document.querySelector("#blank").href = "assets/css/dark.css";
+        document.querySelector("body").style.backgroundColor = "black";
+        // deleteMode = false;
+        currentTheme = "Dark";
+        break;
+      case "Light":
+        document.querySelector("#blank").href = "assets/css/light.css";
+        document.querySelector("body").style.backgroundColor = "white";
+        // deleteMode = false;
+        currentTheme = "Light";
+        break;
+      default:
+        console.log("No valid option");
+      // code block
+    }
+  }
 } // End
 //************************************************ */
 // IPC
@@ -263,36 +299,14 @@ function applySettings(settings) {
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
-  let paintMain = false;
-  let mainText;
-  let subText;
-  let paintSub = false;
+
   let paintNote = false;
-  let activeMain = document.querySelector(".main.active");
-  let activeSub = document.querySelector(".sub.active");
-  if (activeMain) {
-    mainText = activeMain.textContent;
-  }
-  if (activeSub) {
-    subText = activeSub.textContent;
-  }
 
   if (deleteMode) {
     display.showAlert("You have entered delete mode", "success");
     myBody.style.backgroundColor = "#d3369c";
     myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
-    //check for Main folders
-    let htmlMainFolders = document.querySelectorAll(".main");
-    if (htmlMainFolders.length > 0) {
-      paintMain = true;
-    }
 
-    // check for sub folders
-    let htmlSubFolders = document.querySelectorAll(".sub");
-
-    if (htmlSubFolders.length > 0) {
-      paintSub = true;
-    }
     // check for notes
     let htmlNotes = document.querySelectorAll(".note");
 
@@ -300,17 +314,6 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
       paintNote = true;
     }
   } else {
-    //check for Main folders
-    let htmlMainFolders = document.querySelectorAll(".main");
-    if (htmlMainFolders.length > 0) {
-      paintMain = true;
-    }
-    // check for sub folders
-    let htmlSubFolders = document.querySelectorAll(".sub");
-    if (htmlSubFolders.length > 0) {
-      paintSub = true;
-    }
-
     // check for notes
     let htmlNotes = document.querySelectorAll(".note");
     if (htmlNotes.length > 0) {
@@ -331,35 +334,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
         console.log("No Match");
     }
   }
-  if (paintMain) {
-    renderMainFolders();
-    if (mainText) {
-      // loop through the main array and set the one with mactching text to active
-      let Main = document.querySelectorAll(".main");
-      let newArray = Array.from(Main);
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].textContent === mainText) {
-          newArray[i].classList.add("active");
-          break;
-        }
-      }
-    }
-  }
 
-  if (paintSub) {
-    renderSubFolders();
-    if (subText) {
-      // loop through the main array and set the one with mactching text to active
-      let Sub = document.querySelectorAll(".sub");
-      let newArray = Array.from(Sub);
-      for (let i = 0; i < newArray.length; i++) {
-        if (newArray[i].textContent === subText) {
-          newArray[i].classList.add("active");
-          break;
-        }
-      }
-    }
-  }
   if (paintNote) {
     renderNotes();
   }
@@ -404,6 +379,15 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("year:add", (event, dataObj) => {
+  console.log(dataObj);
+  if (!dataObj.fileNamePath) {
+    display.showAlert("You did not enter a path!", "error");
+    // redisplay
+    // get the names for all the years
+    // and then send them to the Display
+    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    return;
+  }
   if (dataObj.name === "") {
     display.showAlert("You did not enter a name for the Year!", "error");
     // redisplay
@@ -412,7 +396,6 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
     return;
   }
-
   if (isNaN(Number(dataObj.name))) {
     display.showAlert("You did not enter a number for the Year!", "error");
     // redisplay
@@ -615,11 +598,112 @@ el.monthList.addEventListener("click", e => {
     return;
   }
   tabAudio.play();
-  display.showNoteHeading();
+  // display.showNoteHeading();
   renderNotes();
 });
 
 //Note Code**************************************************
+//****************************************************** */
+// When the user clicks on a note
+el.noteList.addEventListener("click", e => {
+  // this gets the data I embedded into the html
+  let dataIndex = e.target.dataset.index;
+  let deleteIndex = parseInt(dataIndex);
+  nI = deleteIndex;
+
+  // event delegation
+  if (e.target.classList.contains("moveUp")) {
+    // get the index from the html
+    let index = e.target.parentElement.dataset.index;
+    index = parseInt(index);
+
+    //If index is zero. You can't move it any more so return
+    if (index === 0) {
+      return;
+    }
+    // get move to index
+    let moveTo = index - 1;
+    let arr =
+      arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes;
+    // swap array elements
+    [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
+    btnAudio.play();
+    // write to file
+    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+    // redisplay
+    // send note array to display
+    renderNotes();
+    // return
+    return;
+  }
+
+  // event delegation
+  if (e.target.classList.contains("moveDown")) {
+    // get the index from the html
+    let index = e.target.parentElement.dataset.index;
+    index = parseInt(index);
+
+    let arr =
+      arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes;
+
+    //If index is equal to length - 1. You can't move it any more so return
+    if (index === arr.length - 1) {
+      return;
+    }
+    // get move to index
+    let moveTo = index + 1;
+    // swap array elements
+    [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
+    btnAudio.play();
+    // write to file
+    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+    // redisplay
+    // send note array to display
+    renderNotes();
+    // return
+    return;
+  }
+  // event delegation
+  if (e.target.classList.contains("delete-item")) {
+    // get the index from the html
+    let deleteIndex = e.target.parentElement.dataset.index;
+    deleteIndex = parseInt(deleteIndex);
+
+    // check if control was down, if so delete note
+    if (!deleteMode) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (!e.ctrlKey) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to hold down ctrl key to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        // delete note
+        arrayOfYearObjs[yearIndex].arrayOfMonthObjects[
+          monthIndex
+        ].arrayOfNotes.splice(deleteIndex, 1);
+        // write to file
+        arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+
+        deleteAudio.play();
+        display.showAlert("Note deleted!", "success");
+        // send note array to display
+        renderNotes();
+      }
+    } // End control key down
+    return;
+  }
+}); // End el.noteList.addEventListener
 
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", e => {
@@ -630,10 +714,10 @@ el.addShowFormNote.addEventListener("click", e => {
 // when You click the add note btn in the note form
 document.querySelector("#noteAdd").addEventListener("click", e => {
   e.preventDefault();
-  debugger;
+
   // create note
   let noteText = el.textArea.value.trim();
-  console.log(noteText);
+
   // check if text is empty
   if (noteText === "") {
     warningEmptyAudio.play();
@@ -643,14 +727,6 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
   // create new note
   let newNote = new Note(noteText);
   // push note into note array
-  console.log(yearIndex);
-  console.log(monthIndex);
-
-  console.log(arrayOfYearObjs);
-  console.log(arrayOfYearObjs[yearIndex].arrayOfMonthObjects);
-  console.log(
-    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
-  );
 
   arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes.push(
     newNote
