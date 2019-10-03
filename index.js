@@ -162,6 +162,26 @@ function showSettingsForm() {
   mainWindow.webContents.send("SettingsForm:show");
 } // End showSettingsForm()
 
+function setDeleteModeFalse() {
+  let deleteMode = false;
+  mainWindow.webContents.send("deleteMode:set", deleteMode);
+} // End setDeleteModeFalse()
+
+function setDeleteModeTrue() {
+  let deleteMode = true;
+  mainWindow.webContents.send("deleteMode:set", deleteMode);
+} // End setDeleteModeTrue()
+
+function setThemeLight() {
+  let myThemeString = "Light";
+  mainWindow.webContents.send("Theme:set", myThemeString);
+} // End setThemeLight()
+
+function setThemeDark() {
+  let myThemeString = "Dark";
+  mainWindow.webContents.send("Theme:set", myThemeString);
+} // End setThemeDark()
+
 function setFontSize(fontSize) {
   mainWindow.webContents.send("FontSize:change", fontSize);
 } // End setFontSize(fontSize)
@@ -195,7 +215,25 @@ const menuTemplate = [
       }
     ]
   },
-
+  {
+    label: "Mode",
+    submenu: [
+      {
+        label: "Read and Write",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+L",
+        click() {
+          setDeleteModeFalse();
+        }
+      },
+      {
+        label: "Delete Mode",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+D",
+        click() {
+          setDeleteModeTrue();
+        }
+      }
+    ]
+  },
   {
     label: "Settings",
     submenu: [
@@ -234,7 +272,20 @@ const menuTemplate = [
           setFontSize("x-large");
         }
       },
-
+      {
+        label: "Light Theme",
+        accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+6",
+        click() {
+          setThemeLight();
+        }
+      },
+      {
+        label: "Dark Theme",
+        accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+7",
+        click() {
+          setThemeDark();
+        }
+      },
       {
         label: "Start Up Settings Form",
         accelerator: process.platform === "darwin" ? "Command+L" : "Ctrl+S",

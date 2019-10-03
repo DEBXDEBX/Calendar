@@ -36,6 +36,8 @@
 
     <!-- My CSS File -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+    <link id="blank" rel="stylesheet" type="text/css" href="" />
+
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon" />
     <title>Calender</title>
   </head>
@@ -95,7 +97,18 @@
 
     
     <form id="settingsForm">
-      
+           <!-- Theme -->
+           <div class="form-group setFlex">
+    
+            <label for="theme">Pick a theme</label>
+       
+       <div>
+         <input id="Dark" type="radio" name="theme" value="Dark" checked> Dark
+       </div>
+       <div>
+         <input id="Light" type="radio" name="theme" value="Light"> Light
+       </div>
+      </div>
    
 
       <!-- Font Size -->

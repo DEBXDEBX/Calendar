@@ -1,5 +1,6 @@
 class SettingsObj {
   constructor() {
+    this.theme = "Dark";
     this.fontSize = "normal";
     this.type = "calender";
     this.filePathArray = [];

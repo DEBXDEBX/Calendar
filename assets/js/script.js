@@ -33,7 +33,7 @@ const display = new Display(el, $);
 //Theme current
 let currentTheme = "Dark";
 //Delete Mode
-let deleteMode = true;
+let deleteMode = false;
 // create year index
 let yearIndex = -243;
 // create month index
@@ -258,6 +258,138 @@ function applySettings(settings) {
 //************************************************ */
 // IPC
 //************************************************ */
+
+// listen for index.js to set deletemode
+ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  // set the delete mode to true or false
+  deleteMode = deleteModeBool;
+  let paintMain = false;
+  let mainText;
+  let subText;
+  let paintSub = false;
+  let paintNote = false;
+  let activeMain = document.querySelector(".main.active");
+  let activeSub = document.querySelector(".sub.active");
+  if (activeMain) {
+    mainText = activeMain.textContent;
+  }
+  if (activeSub) {
+    subText = activeSub.textContent;
+  }
+
+  if (deleteMode) {
+    display.showAlert("You have entered delete mode", "success");
+    myBody.style.backgroundColor = "#d3369c";
+    myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
+    //check for Main folders
+    let htmlMainFolders = document.querySelectorAll(".main");
+    if (htmlMainFolders.length > 0) {
+      paintMain = true;
+    }
+
+    // check for sub folders
+    let htmlSubFolders = document.querySelectorAll(".sub");
+
+    if (htmlSubFolders.length > 0) {
+      paintSub = true;
+    }
+    // check for notes
+    let htmlNotes = document.querySelectorAll(".note");
+
+    if (htmlNotes.length > 0) {
+      paintNote = true;
+    }
+  } else {
+    //check for Main folders
+    let htmlMainFolders = document.querySelectorAll(".main");
+    if (htmlMainFolders.length > 0) {
+      paintMain = true;
+    }
+    // check for sub folders
+    let htmlSubFolders = document.querySelectorAll(".sub");
+    if (htmlSubFolders.length > 0) {
+      paintSub = true;
+    }
+
+    // check for notes
+    let htmlNotes = document.querySelectorAll(".note");
+    if (htmlNotes.length > 0) {
+      paintNote = true;
+    }
+
+    display.showAlert("You Have exited delete mode", "success");
+    switch (currentTheme) {
+      case "Dark":
+        myBody.style.background = "none";
+        myBody.style.backgroundColor = "black";
+        break;
+      case "Light":
+        myBody.style.background = "none";
+        myBody.style.backgroundColor = "white";
+        break;
+      default:
+        console.log("No Match");
+    }
+  }
+  if (paintMain) {
+    renderMainFolders();
+    if (mainText) {
+      // loop through the main array and set the one with mactching text to active
+      let Main = document.querySelectorAll(".main");
+      let newArray = Array.from(Main);
+      for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].textContent === mainText) {
+          newArray[i].classList.add("active");
+          break;
+        }
+      }
+    }
+  }
+
+  if (paintSub) {
+    renderSubFolders();
+    if (subText) {
+      // loop through the main array and set the one with mactching text to active
+      let Sub = document.querySelectorAll(".sub");
+      let newArray = Array.from(Sub);
+      for (let i = 0; i < newArray.length; i++) {
+        if (newArray[i].textContent === subText) {
+          newArray[i].classList.add("active");
+          break;
+        }
+      }
+    }
+  }
+  if (paintNote) {
+    renderNotes();
+  }
+}); //End ipcRenderer.on("deleteMode:set"
+
+//listen for index.js to set theme
+ipcRenderer.on("Theme:set", (event, theme) => {
+  // set te current theme
+  currentTheme = theme;
+  // check if delete mode is on, if so return
+  if (deleteMode) {
+    return;
+  }
+  switch (theme) {
+    case "Dark":
+      document.querySelector("#blank").href = "assets/css/dark.css";
+      document.querySelector("body").style.backgroundColor = "black";
+      deleteMode = false;
+      break;
+    case "Light":
+      document.querySelector("#blank").href = "assets/css/light.css";
+      document.querySelector("body").style.backgroundColor = "white";
+      deleteMode = false;
+      break;
+    default:
+      console.log("No valid option");
+    // code block
+  }
+});
+// End ipcRenderer.on("Theme:set"
 
 // listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", event => {
@@ -562,13 +694,16 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
   e.preventDefault();
 
   // get form data to create a settings object
-
+  // theme radio code
+  let themeValue = getRadioValue(el.settingsForm, "theme");
+  // set the current theme
+  currentTheme = themeValue;
   // fontsize radio code
   let fontSizeValue = getRadioValue(el.settingsForm, "fontSize");
   let settingsStorage = new SettingsStorage();
   let settingsObj = new SettingsObj();
   // set the object values
-
+  settingsObj.theme = themeValue;
   settingsObj.fontSize = fontSizeValue;
   settingsObj.filePathArray = settingsArrayContainer;
   // set auto load true or false
