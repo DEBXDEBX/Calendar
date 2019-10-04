@@ -142,6 +142,13 @@ function autoLoadYearObjects(array) {
 }
 
 function readFileContents(filepath) {
+  if (!filepath) {
+    let message = "No file selected";
+    let msgType = "error";
+    display.showAlert(message, msgType);
+    return;
+  }
+
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
       let message = "An error occured reading the file.";
@@ -955,7 +962,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
     filters: [{ name: "Custom File Type", extensions: ["deb"] }]
   };
   dialog.showOpenDialog(null, myOptions, fileNames => {
-    if (fileNames === undefined) {
+    if (fileNames === undefined || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
       // got file name
