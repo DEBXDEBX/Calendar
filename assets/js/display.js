@@ -167,11 +167,6 @@ class Display {
   }
 
   //Method
-  showNoteHeading() {
-    this.displayBlock(this.elements.nHeading);
-  }
-
-  //Method
   showNoteForm() {
     this.displayBlock(this.elements.noteForm);
   }

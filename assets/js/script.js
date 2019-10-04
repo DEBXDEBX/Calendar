@@ -76,7 +76,19 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
-
+// method
+function renderYearTabs() {
+  // redisplay
+  // get the names for all the years
+  // and then send them to the Display
+  display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+}
+function renderMonthTabs() {
+  // get the array of months and send it to display
+  display.paintMonthTabs(
+    mapOutKey("name", arrayOfYearObjs[yearIndex].arrayOfMonthObjects)
+  );
+}
 // method
 function renderNotes() {
   // send the note array to the Display
@@ -164,7 +176,7 @@ function readFileContents(filepath) {
             // redisplay
             // get the names for all the years
             // and then send them to the Display
-            display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+            renderYearTabs();
             return;
           }
           // create a yearObj object
@@ -181,7 +193,7 @@ function readFileContents(filepath) {
           // redisplay
           // get the names for all the years
           // and then send them to the Display
-          display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+          renderYearTabs();
           return;
         } else {
           let message =
@@ -299,15 +311,11 @@ function handleFilePath(imagePath) {
     return;
   }
   // set image path
-  // arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI].noteArray[
-  //   nI
-  // ].imagePath = imagePath;
   arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[
     nI
   ].imagePath = imagePath;
   // save year object
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
-  // arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
   addImageAudio.play();
   display.showAlert("A new image was added to the note", "success");
 } // End handleFilePath(imagePath)
@@ -413,13 +421,12 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("year:add", (event, dataObj) => {
-  console.log(dataObj);
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   if (dataObj.name === "") {
@@ -427,7 +434,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   if (isNaN(Number(dataObj.name))) {
@@ -435,7 +442,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   if (dataObj.fileNamePath === undefined) {
@@ -443,7 +450,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   // check if the fileNamePath already exists if it does alert and return
@@ -459,7 +466,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   // create a year object
@@ -498,7 +505,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
-  display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+  renderYearTabs();
 });
 // End ipcRenderer.on("year:add"********************
 
@@ -541,7 +548,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
   // create a year object
@@ -558,7 +565,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
-  display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+  renderYearTabs();
   return;
 });
 //End ipcRenderer.on("year:load"*****************************
@@ -597,9 +604,7 @@ el.yearList.addEventListener("click", e => {
   }
   tabAudio.play();
   // get the array of months and send it to display
-  display.paintMonthTabs(
-    mapOutKey("name", arrayOfYearObjs[yearIndex].arrayOfMonthObjects)
-  );
+  renderMonthTabs();
 }); // End el.yearList.addEventListener()
 
 el.monthList.addEventListener("click", e => {
@@ -632,7 +637,7 @@ el.monthList.addEventListener("click", e => {
     return;
   }
   tabAudio.play();
-  // display.showNoteHeading();
+
   renderNotes();
 });
 
@@ -764,9 +769,6 @@ el.noteList.addEventListener("click", e => {
   // event delegation
   if (e.target.classList.contains("note")) {
     // see if the note has a imagePath
-    // let selectedNote =
-    //   arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
-    //     .noteArray[nI];
 
     let selectedNote =
       arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[
@@ -804,7 +806,6 @@ el.noteList.addEventListener("click", e => {
     if (e.shiftKey) {
       selectedNote.imagePath = null;
       // write to file
-      // arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
       arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
       // reasign current note
       nI = -243;
@@ -920,7 +921,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
-    display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+    renderYearTabs();
     return;
   }
 }); // End
@@ -933,7 +934,7 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
-  display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
+  renderYearTabs();
   return;
 });
 
