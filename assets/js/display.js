@@ -17,7 +17,7 @@ class Display {
     // Get parent
     const container = document.querySelector("body");
     // Insert alert other element
-    container.insertBefore(div, this.elements.myForm);
+    container.insertBefore(div, this.elements.noteForm);
     // container.insertBefore(div, this.elements.transactionHeading);
     // Timeout after 4 sec
     setTimeout(function() {

@@ -291,6 +291,40 @@ function applySettings(settings) {
     }
   }
 } // End
+
+function handleFilePath(imagePath) {
+  if (!imagePath) {
+    warningEmptyAudio.play();
+    display.showAlert("Please enter a path in the name area!", "error");
+    return;
+  }
+  // set image path
+  // arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI].noteArray[
+  //   nI
+  // ].imagePath = imagePath;
+  arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[
+    nI
+  ].imagePath = imagePath;
+  // save year object
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  // arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+  addImageAudio.play();
+  display.showAlert("A new image was added to the note", "success");
+} // End handleFilePath(imagePath)
+
+function addImage() {
+  let imagePath;
+
+  dialog.showOpenDialog(fileNames => {
+    if (!fileNames) {
+      display.showAlert("No file selected", "error");
+    } else {
+      // got file name
+      imagePath = fileNames[0];
+      handleFilePath(imagePath);
+    }
+  });
+} // End addImage()
 //************************************************ */
 // IPC
 //************************************************ */
@@ -611,6 +645,24 @@ el.noteList.addEventListener("click", e => {
   let deleteIndex = parseInt(dataIndex);
   nI = deleteIndex;
 
+  // this makes sure only one picture in a note shows up in the note area
+  let picArray = [];
+  let el = document.querySelectorAll(".myPic");
+  // push all pic index's into an array to loop through next
+  for (let i = 0; i < el.length; i++) {
+    // remove all elements with the class of .myPic
+    let indexP = el[i].getAttribute("data-pIndex");
+    indexP = parseInt(indexP);
+    picArray.push(indexP);
+  }
+  // loop through picArray and return if the picture is already displayed
+  for (let ii = 0; ii < picArray.length; ii++) {
+    if (picArray[ii] === nI) {
+      nI = -243;
+      return;
+    }
+  }
+
   // event delegation
   if (e.target.classList.contains("moveUp")) {
     // get the index from the html
@@ -703,6 +755,65 @@ el.noteList.addEventListener("click", e => {
     } // End control key down
     return;
   }
+  // event delegation
+  if (e.target.classList.contains("myPic")) {
+    // remove image
+    e.target.remove();
+  }
+
+  // event delegation
+  if (e.target.classList.contains("note")) {
+    // see if the note has a imagePath
+    // let selectedNote =
+    //   arrayOfFileCabs[fcI].arrayOfPrimaryObjects[mfI].secondaryArray[sfI]
+    //     .noteArray[nI];
+
+    let selectedNote =
+      arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[
+        nI
+      ];
+
+    if (selectedNote.imagePath) {
+      let oImg = document.createElement("img");
+      oImg.setAttribute("src", selectedNote.imagePath);
+      oImg.setAttribute("alt", "na");
+      oImg.setAttribute("width", "100%");
+      oImg.setAttribute("data-pIndex", nI);
+      oImg.className = "myPic";
+      // insert the image after current note
+
+      // You can not use el.noteList because you are in the addeventListener for el.noteList
+      // use this.noteList
+      this.noteList.insertBefore(oImg, e.target.nextSibling);
+      // 2ND fix: just reselect the element, both will work
+      // document
+      //   .querySelector("#noteList")
+      //   .insertBefore(oImg, e.target.nextSibling);
+    }
+    // check if the alt Key is held down and add Image to note
+    if (e.altKey) {
+      addImage();
+      // send note array to display: after delay so the path prints
+      setTimeout(function() {
+        renderNotes();
+      }, 4000);
+      // end set Time out
+      return;
+    }
+    // if shift is down remove the current path
+    if (e.shiftKey) {
+      selectedNote.imagePath = null;
+      // write to file
+      // arrayOfFileCabs[fcI].writeFileCabToHardDisk(fs);
+      arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+      // reasign current note
+      nI = -243;
+      deleteAudio.play();
+      display.showAlert("Removed the image from note!", "success");
+      // send note array to display
+      renderNotes();
+    }
+  } // End class name contains note
 }); // End el.noteList.addEventListener
 
 // when You click the + in the Note Heading
