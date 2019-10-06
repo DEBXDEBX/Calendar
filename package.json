@@ -1,7 +1,7 @@
 {
-  "name": "calender",
+  "name": "calendar",
   "version": "1.0.0",
-  "description": "calender",
+  "description": "calendar notes",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
@@ -9,9 +9,18 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "startc": ".\\node_modules\\electron\\dist\\electron.exe .",
-    "start": "electron ."
+    "debx": ".\\node_modules\\electron\\dist\\electron.exe .",
+    "start": "electron .",
+    "pack": "build --dir"
   },
   "author": "David E. Berkheimer",
-  "license": "ISC"
+  "license": "ISC",
+  "build": {
+    "appId": "com.deb.calendar",
+    "productName": "Calendar",
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    }
+  }
 }
