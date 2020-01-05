@@ -149,6 +149,11 @@ class Display {
   } // End showSettingsForm()
 
   //Method
+  hideSettingsForm() {
+    this.displayNone(this.elements.settingsForm);
+  } // End hideSettingsForm()
+
+  //Method
   clearAutoLoadUL() {
     // clear the ul
     this.elements.autoLoadList.innerHTML = "";

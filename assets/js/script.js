@@ -433,6 +433,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -441,6 +442,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -449,6 +451,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -457,6 +460,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -473,6 +477,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -512,6 +517,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
+  display.hideSettingsForm();
   renderYearTabs();
 });
 // End ipcRenderer.on("year:add"********************
@@ -555,6 +561,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
     // redisplay
     // get the names for all the years
     // and then send them to the Display
+    display.hideSettingsForm();
     renderYearTabs();
     return;
   }
@@ -572,6 +579,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
+  display.hideSettingsForm();
   renderYearTabs();
   return;
 });
