@@ -139,6 +139,16 @@ h6 > span {
   padding: 2rem;
   border-radius: 22px;
 }
+.setAutoListFlex {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: start;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 22px;
+}
+
 h4 {
   margin: 2px 0px 40px 2px;
   background-color: #0f1313;
