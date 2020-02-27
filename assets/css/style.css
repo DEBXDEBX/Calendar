@@ -23,7 +23,7 @@ a {
 /* use Variables */
 h1 {
   color: var(--primary-color);
-  text-shadow: 2px 2px #5320c6;
+  /* text-shadow: 2px 2px #5320c6; */
   text-align: center;
 }
 
