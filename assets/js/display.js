@@ -41,6 +41,10 @@ class Display {
   } // End clearYearDisplay()
 
   //Method
+  clearYearOfNotesDisplay() {
+    this.elements.yearOfNotesList.innerHTML = "";
+  } // End clearYearDisplay()
+  //Method
   clearMonthDisplay() {
     this.elements.monthList.innerHTML = "";
   } // End clearYearDisplay()
@@ -53,6 +57,7 @@ class Display {
   // Method
   paintYearTabs(mapedArray) {
     this.clearMonthDisplay();
+    this.displayNone(this.elements.yearOfNotesList);
     this.displayNone(this.elements.monthHeading);
     this.displayNone(this.elements.monthList);
 
@@ -133,6 +138,7 @@ class Display {
   //Method
   showSettingsForm() {
     //  hide everything
+    this.displayNone(this.elements.yearOfNotesList);
     this.displayNone(this.elements.yearList);
     this.displayNone(this.elements.monthList);
     // this.displayNone(this.elements.transactionList);
@@ -177,7 +183,26 @@ class Display {
   }
 
   //Method
+  paintYearOfNotes(noteArray) {
+    // clear the div
+
+    this.clearYearOfNotesDisplay();
+
+    noteArray.forEach((note, index) => {
+      let newElement = document.createElement("h4");
+      newElement.className = "note";
+      newElement.setAttribute("data-index", `${index}`);
+      newElement.appendChild(document.createTextNode(`${note.text}`));
+      // insert the note
+      this.elements.yearOfNotesList.appendChild(newElement);
+    });
+
+    this.displayBlock(this.elements.yearOfNotesList);
+  }
+
+  //Method
   paintNotes(deleteMode, noteArray) {
+    this.displayNone(this.elements.yearOfNotesList);
     this.displayNone(this.elements.nHeading);
     this.displayBlock(this.elements.nHeading);
     this.displayNone(this.elements.noteForm);

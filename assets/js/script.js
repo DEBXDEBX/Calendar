@@ -92,10 +92,14 @@ function renderMonthTabs() {
 // method
 function renderNotes() {
   // send the note array to the Display
-  display.paintNotes(
-    deleteMode,
-    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
-  );
+  if (arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes) {
+    display.paintNotes(
+      deleteMode,
+      arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
+    );
+  } else {
+    console.log("no notes to display");
+  }
 }
 
 // Sort an array by it's name
@@ -620,6 +624,12 @@ el.yearList.addEventListener("click", e => {
   tabAudio.play();
   // get the array of months and send it to display
   renderMonthTabs();
+  // New code below display all the notes for the year
+  let yearOfNotes = [];
+  arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach(month => {
+    yearOfNotes = [...yearOfNotes, ...month.arrayOfNotes];
+  });
+  display.paintYearOfNotes(yearOfNotes);
 }); // End el.yearList.addEventListener()
 
 el.monthList.addEventListener("click", e => {

@@ -3,6 +3,7 @@ class Elements {
     // select the lists
     this.yearList = document.querySelector("#yearList");
     this.monthList = document.querySelector("#monthList");
+    this.yearOfNotesList = document.querySelector("#yearOfNotesList");
     this.noteList = document.querySelector("#noteList");
     // select headings
     this.yearHeading = document.querySelector("#yearHeading");
