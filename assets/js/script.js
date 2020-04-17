@@ -48,7 +48,7 @@ let myBody = document.querySelector("body");
 // temp hold for array
 let settingsArrayContainer;
 //The start of program exicution.
-window.onload = function() {
+window.onload = function () {
   startUp();
 };
 
@@ -104,7 +104,7 @@ function renderNotes() {
 
 // Sort an array by it's name
 function sortArrayByName(array) {
-  array.sort(function(a, b) {
+  array.sort(function (a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
     var nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
@@ -134,13 +134,13 @@ function getRadioValue(form, name) {
 }
 
 function mapOutKey(key, array) {
-  const newArray = array.map(function(item) {
+  const newArray = array.map(function (item) {
     return item[key];
   });
   return newArray;
 }
 function autoLoadYearObjects(array) {
-  array.forEach(function(item) {
+  array.forEach(function (item) {
     readFileContents(item);
   });
 }
@@ -177,7 +177,7 @@ function readFileContents(filepath) {
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
-          arrayOfYearObjs.forEach(element => {
+          arrayOfYearObjs.forEach((element) => {
             if (element.fileNamePath === data.fileNamePath) {
               isTaken = true;
             }
@@ -334,7 +334,7 @@ function handleFilePath(imagePath) {
 function addImage() {
   let imagePath;
 
-  dialog.showOpenDialog(fileNames => {
+  dialog.showOpenDialog((fileNames) => {
     if (!fileNames) {
       display.showAlert("No file selected", "error");
     } else {
@@ -420,7 +420,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 // End ipcRenderer.on("Theme:set"
 
 // listen for index.js to show settings form
-ipcRenderer.on("SettingsForm:show", event => {
+ipcRenderer.on("SettingsForm:show", (event) => {
   loadUpSettingsForm();
   display.showSettingsForm();
 });
@@ -471,7 +471,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfYearObjs.forEach(element => {
+  arrayOfYearObjs.forEach((element) => {
     if (element.fileNamePath === dataObj.fileNamePath) {
       isTaken = true;
     }
@@ -554,7 +554,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfYearObjs.forEach(element => {
+  arrayOfYearObjs.forEach((element) => {
     if (element.fileNamePath === data.fileNamePath) {
       isTaken = true;
     }
@@ -592,7 +592,19 @@ ipcRenderer.on("yearObj:load", (event, data) => {
 
 //*************************************************** */
 
-el.yearList.addEventListener("click", e => {
+el.yearList.addEventListener("click", (e) => {
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+  // Bug fix
+  if (isNaN(index)) {
+    //when you click out side of te tab
+    // if it's not a number return
+    return;
+  }
+
+  yearIndex = index;
+
   // event delegation
   if (e.target.classList.contains("year")) {
     // set's the current target active
@@ -600,7 +612,7 @@ el.yearList.addEventListener("click", e => {
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".year");
     for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function() {
+      el[i].onclick = function () {
         var c = 0;
         while (c < el.length) {
           el[c++].className = "year";
@@ -610,29 +622,30 @@ el.yearList.addEventListener("click", e => {
     }
   } // End code to set the active class
 
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  yearIndex = index;
-
-  // Bug fix
-  if (isNaN(yearIndex)) {
-    //when you click out side of te tab
-    // if it's not a number return
-    return;
-  }
   tabAudio.play();
   // get the array of months and send it to display
   renderMonthTabs();
   // New code below display all the notes for the year
   let yearOfNotes = [];
-  arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach(month => {
+  arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach((month) => {
     yearOfNotes = [...yearOfNotes, ...month.arrayOfNotes];
   });
   display.paintYearOfNotes(yearOfNotes);
 }); // End el.yearList.addEventListener()
 
-el.monthList.addEventListener("click", e => {
+el.monthList.addEventListener("click", (e) => {
+  // get the index from the html
+  let index = e.target.dataset.index;
+  index = parseInt(index);
+
+  // Bug fix
+  if (isNaN(index)) {
+    //when you click out side of te tab
+    // if it's not a number return
+    return;
+  }
+  monthIndex = index;
+
   // event delegation
   if (e.target.classList.contains("month")) {
     // set's the current target active
@@ -640,7 +653,7 @@ el.monthList.addEventListener("click", e => {
     //The Next code is to set the current tab color white with the active class
     var el = document.querySelectorAll(".month");
     for (let i = 0; i < el.length; i++) {
-      el[i].onclick = function() {
+      el[i].onclick = function () {
         var c = 0;
         while (c < el.length) {
           el[c++].className = "month";
@@ -650,17 +663,6 @@ el.monthList.addEventListener("click", e => {
     }
   } // End code to set the active class
 
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  monthIndex = index;
-
-  // Bug fix
-  if (isNaN(monthIndex)) {
-    //when you click out side of te tab
-    // if it's not a number return
-    return;
-  }
   tabAudio.play();
 
   renderNotes();
@@ -669,7 +671,7 @@ el.monthList.addEventListener("click", e => {
 //Note Code**************************************************
 //****************************************************** */
 // When the user clicks on a note
-el.noteList.addEventListener("click", e => {
+el.noteList.addEventListener("click", (e) => {
   // this gets the data I embedded into the html
   let dataIndex = e.target.dataset.index;
   let deleteIndex = parseInt(dataIndex);
@@ -821,7 +823,7 @@ el.noteList.addEventListener("click", e => {
     if (e.altKey) {
       addImage();
       // send note array to display: after delay so the path prints
-      setTimeout(function() {
+      setTimeout(function () {
         renderNotes();
       }, 4000);
       // end set Time out
@@ -843,13 +845,13 @@ el.noteList.addEventListener("click", e => {
 }); // End el.noteList.addEventListener
 
 // when You click the + in the Note Heading
-el.addShowFormNote.addEventListener("click", e => {
+el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
 }); // End
 
 // when You click the add note btn in the note form
-document.querySelector("#noteAdd").addEventListener("click", e => {
+document.querySelector("#noteAdd").addEventListener("click", (e) => {
   e.preventDefault();
 
   // create note
@@ -879,21 +881,21 @@ document.querySelector("#noteAdd").addEventListener("click", e => {
 }); // End
 
 // when You click the cancel btn in the note form
-document.querySelector("#noteCancel").addEventListener("click", e => {
+document.querySelector("#noteCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
 }); // End
 
 // when You click the clear btn in the note form
-document.querySelector("#noteClearTextArea").addEventListener("click", e => {
+document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
 }); //End
 
 // when you click on the add Date btn in the note form
-document.querySelector("#noteDate").addEventListener("click", e => {
+document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
@@ -903,7 +905,7 @@ document.querySelector("#noteDate").addEventListener("click", e => {
 // settings
 // *************************************************************
 // when You click on save settings Btn
-document.querySelector("#settingsSave").addEventListener("click", e => {
+document.querySelector("#settingsSave").addEventListener("click", (e) => {
   e.preventDefault();
 
   // get form data to create a settings object
@@ -952,7 +954,7 @@ document.querySelector("#settingsSave").addEventListener("click", e => {
 }); // End
 
 // when You click on settings form cancel Btn
-document.querySelector("#settingsCancel").addEventListener("click", e => {
+document.querySelector("#settingsCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
@@ -964,7 +966,7 @@ document.querySelector("#settingsCancel").addEventListener("click", e => {
 });
 
 // when You click on settings form factory reset btn
-document.querySelector("#factoryReset").addEventListener("click", e => {
+document.querySelector("#factoryReset").addEventListener("click", (e) => {
   btnAudio.play();
   let settingsStorage = new SettingsStorage();
   settingsStorage.clearFileFromLocalStorage();
@@ -972,14 +974,14 @@ document.querySelector("#factoryReset").addEventListener("click", e => {
 });
 
 // When You click on settings form add path to autoload Btn
-document.querySelector("#settingsAddPath").addEventListener("click", e => {
+document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
   let yearObjPath;
 
   let myOptions = {
-    filters: [{ name: "Custom File Type", extensions: ["deb"] }]
+    filters: [{ name: "Custom File Type", extensions: ["deb"] }],
   };
-  dialog.showOpenDialog(null, myOptions, fileNames => {
+  dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (fileNames === undefined || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
@@ -989,7 +991,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
       // check if the fileNamePath already exists if it does alert and return
       // make a variable to return
       let isTaken = false;
-      settingsArrayContainer.forEach(element => {
+      settingsArrayContainer.forEach((element) => {
         if (element === yearObjPath) {
           isTaken = true;
         }
@@ -1010,7 +1012,7 @@ document.querySelector("#settingsAddPath").addEventListener("click", e => {
 });
 
 // when You click on x to delete a file path
-document.querySelector("#autoLoadList").addEventListener("click", e => {
+document.querySelector("#autoLoadList").addEventListener("click", (e) => {
   e.preventDefault();
   // event delegation
   if (e.target.classList.contains("deleteFile")) {
