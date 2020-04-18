@@ -593,18 +593,6 @@ ipcRenderer.on("yearObj:load", (event, data) => {
 //*************************************************** */
 
 el.yearList.addEventListener("click", (e) => {
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-  // Bug fix
-  if (isNaN(index)) {
-    //when you click out side of te tab
-    // if it's not a number return
-    return;
-  }
-
-  yearIndex = index;
-
   // event delegation
   if (e.target.classList.contains("year")) {
     // set's the current target active
@@ -620,32 +608,30 @@ el.yearList.addEventListener("click", (e) => {
         el[i].className = "year active";
       };
     }
-  } // End code to set the active class
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+    // Bug fix
+    if (isNaN(index)) {
+      //when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
 
-  tabAudio.play();
-  // get the array of months and send it to display
-  renderMonthTabs();
-  // New code below display all the notes for the year
-  let yearOfNotes = [];
-  arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach((month) => {
-    yearOfNotes = [...yearOfNotes, ...month.arrayOfNotes];
-  });
-  display.paintYearOfNotes(yearOfNotes);
+    yearIndex = index;
+    tabAudio.play();
+    // get the array of months and send it to display
+    renderMonthTabs();
+    // New code below display all the notes for the year
+    let yearOfNotes = [];
+    arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach((month) => {
+      yearOfNotes = [...yearOfNotes, ...month.arrayOfNotes];
+    });
+    display.paintYearOfNotes(yearOfNotes);
+  } // End code to set the active class
 }); // End el.yearList.addEventListener()
 
 el.monthList.addEventListener("click", (e) => {
-  // get the index from the html
-  let index = e.target.dataset.index;
-  index = parseInt(index);
-
-  // Bug fix
-  if (isNaN(index)) {
-    //when you click out side of te tab
-    // if it's not a number return
-    return;
-  }
-  monthIndex = index;
-
   // event delegation
   if (e.target.classList.contains("month")) {
     // set's the current target active
@@ -661,11 +647,23 @@ el.monthList.addEventListener("click", (e) => {
         el[i].className = "month active";
       };
     }
+
+    // get the index from the html
+    let index = e.target.dataset.index;
+    index = parseInt(index);
+
+    // Bug fix
+    if (isNaN(index)) {
+      //when you click out side of te tab
+      // if it's not a number return
+      return;
+    }
+    monthIndex = index;
+    tabAudio.play();
+
+    renderNotes();
+    return;
   } // End code to set the active class
-
-  tabAudio.play();
-
-  renderNotes();
 });
 
 //Note Code**************************************************
@@ -1016,13 +1014,33 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
   e.preventDefault();
   // event delegation
   if (e.target.classList.contains("deleteFile")) {
-    // this gets the data I embedded into the html
-    let dataIndex = e.target.parentElement.parentElement.dataset.index;
-    let deleteIndex = parseInt(dataIndex);
-    // delete path
-    settingsArrayContainer.splice(deleteIndex, 1);
-    warningSelectAudio.play();
-    // update Form
-    display.showAutoLoadList(settingsArrayContainer);
+    if (!deleteMode) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to select delete mode in menu to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (!e.ctrlKey) {
+      warningEmptyAudio.play();
+      display.showAlert(
+        "You have to hold down ctrl key to make a deletion",
+        "error"
+      );
+      return;
+    }
+    if (e.ctrlKey) {
+      if (deleteMode) {
+        // this gets the data I embedded into the html
+        let dataIndex = e.target.parentElement.parentElement.dataset.index;
+        let deleteIndex = parseInt(dataIndex);
+        // delete path
+        settingsArrayContainer.splice(deleteIndex, 1);
+        warningSelectAudio.play();
+        // update Form
+        display.showAutoLoadList(settingsArrayContainer);
+      }
+    }
   }
 });
