@@ -102,6 +102,26 @@ function renderNotes() {
   }
 }
 
+function pushFileSettingsContainer(fileCabPath) {
+  // check if the fileNamePath already exists if it does alert and return
+  // make a variable to return
+  let isTaken = false;
+  settingsArrayContainer.forEach((element) => {
+    if (element === fileCabPath) {
+      isTaken = true;
+    }
+  });
+  if (isTaken) {
+    // warningNameTakenAudio.play();
+    warningNameTakenAudio.play();
+    display.showAlert("That file is already loaded", "error");
+    return;
+  }
+
+  // add it too tempHOld
+  settingsArrayContainer.push(fileCabPath);
+}
+
 // Sort an array by it's name
 function sortArrayByName(array) {
   array.sort(function (a, b) {
@@ -789,6 +809,7 @@ el.noteList.addEventListener("click", (e) => {
   if (e.target.classList.contains("myPic")) {
     // remove image
     e.target.remove();
+    return;
   }
 
   // event delegation
@@ -839,6 +860,7 @@ el.noteList.addEventListener("click", (e) => {
       // send note array to display
       renderNotes();
     }
+    return;
   } // End class name contains note
 }); // End el.noteList.addEventListener
 
@@ -976,32 +998,26 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
   let yearObjPath;
 
+  // this is for extsions
   let myOptions = {
-    filters: [{ name: "Custom File Type", extensions: ["deb"] }],
+    filters: [
+      {
+        name: "Custom File Type",
+        extensions: ["deb"],
+      },
+    ],
+    properties: ["openFile", "multiSelections"],
   };
+
   dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (fileNames === undefined || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
       // got file name
-      yearObjPath = fileNames[0];
 
-      // check if the fileNamePath already exists if it does alert and return
-      // make a variable to return
-      let isTaken = false;
-      settingsArrayContainer.forEach((element) => {
-        if (element === yearObjPath) {
-          isTaken = true;
-        }
-      });
-      if (isTaken) {
-        warningNameTakenAudio.play();
-        display.showAlert("That file is already loaded", "error");
-        return;
+      for (let fileCabPath of fileNames) {
+        pushFileSettingsContainer(fileCabPath);
       }
-
-      // add it too tempHOld
-      settingsArrayContainer.push(yearObjPath);
       addImageAudio.play();
       // update Form
       display.showAutoLoadList(settingsArrayContainer);
