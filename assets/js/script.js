@@ -102,12 +102,12 @@ function renderNotes() {
   }
 }
 
-function pushFileSettingsContainer(fileCabPath) {
+function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
   settingsArrayContainer.forEach((element) => {
-    if (element === fileCabPath) {
+    if (element === filePath) {
       isTaken = true;
     }
   });
@@ -119,7 +119,7 @@ function pushFileSettingsContainer(fileCabPath) {
   }
 
   // add it too tempHOld
-  settingsArrayContainer.push(fileCabPath);
+  settingsArrayContainer.push(filePath);
 }
 
 // Sort an array by it's name
@@ -996,7 +996,6 @@ document.querySelector("#factoryReset").addEventListener("click", (e) => {
 // When You click on settings form add path to autoload Btn
 document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
   e.preventDefault();
-  let yearObjPath;
 
   // this is for extsions
   let myOptions = {
@@ -1015,8 +1014,8 @@ document.querySelector("#settingsAddPath").addEventListener("click", (e) => {
     } else {
       // got file name
 
-      for (let fileCabPath of fileNames) {
-        pushFileSettingsContainer(fileCabPath);
+      for (let filePath of fileNames) {
+        pushFileSettingsContainer(filePath);
       }
       addImageAudio.play();
       // update Form
