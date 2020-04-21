@@ -1,14 +1,9 @@
 "use strict";
-// webPreferences: true sets up the require in the script js file electron version 5.0.0 and above
-// mainWindow = new BrowserWindow({
-//   webPreferences: {
-//     nodeIntegration: true
-//   }
-// });   index.js
 // Used to access file system
 let app = require("electron").remote;
 let { dialog } = app;
 let fs = require("fs");
+
 const electron = require("electron");
 const { ipcRenderer } = electron;
 
@@ -23,7 +18,7 @@ const tabAudio = document.querySelector("#tabAudio");
 const btnAudio = document.querySelector("#btnAudio");
 const cancelAudio = document.querySelector("#cancelAudio");
 const clickAudio = document.querySelector("#clickAudio");
-//Global variable's
+// Global variable's
 // This is the Main array that holds all the year objects
 const arrayOfYearObjs = [];
 // create elements object
@@ -47,7 +42,7 @@ let checkBox = document.querySelector("#autoLoad");
 let myBody = document.querySelector("body");
 // temp hold for array
 let settingsArrayContainer;
-//The start of program exicution.
+// The start of program exicution.
 window.onload = function () {
   startUp();
 };
@@ -76,20 +71,21 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
-// method
+//
 function renderYearTabs() {
   // redisplay
   // get the names for all the years
   // and then send them to the Display
   display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
 }
+//
 function renderMonthTabs() {
   // get the array of months and send it to display
   display.paintMonthTabs(
     mapOutKey("name", arrayOfYearObjs[yearIndex].arrayOfMonthObjects)
   );
 }
-// method
+//
 function renderNotes() {
   // send the note array to the Display
   if (arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes) {
@@ -101,7 +97,7 @@ function renderNotes() {
     console.log("no notes to display");
   }
 }
-
+//
 function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
@@ -121,8 +117,7 @@ function pushFileSettingsContainer(filePath) {
   // add it too tempHOld
   settingsArrayContainer.push(filePath);
 }
-
-// Sort an array by it's name
+//
 function sortArrayByName(array) {
   array.sort(function (a, b) {
     var nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -137,7 +132,7 @@ function sortArrayByName(array) {
     return 0;
   }); //End sort function
 }
-// get the value of the selected radio button
+//
 function getRadioValue(form, name) {
   var val;
   // get list of radio buttons with specified name
@@ -152,19 +147,20 @@ function getRadioValue(form, name) {
   }
   return val; // return value of checked radio or undefined if none checked
 }
-
+//
 function mapOutKey(key, array) {
   const newArray = array.map(function (item) {
     return item[key];
   });
   return newArray;
 }
+//
 function autoLoadYearObjects(array) {
   array.forEach(function (item) {
     readFileContents(item);
   });
 }
-
+//
 function readFileContents(filepath) {
   if (!filepath) {
     let message = "No file selected";
@@ -236,6 +232,7 @@ function readFileContents(filepath) {
     }
   });
 }
+//
 function loadUpSettingsForm() {
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
@@ -287,7 +284,7 @@ function loadUpSettingsForm() {
   // update autoload form ul
   display.showAutoLoadList(settingsArrayContainer);
 } // End loadUpSettingsForm()
-
+//
 function applySettings(settings) {
   if (settings.autoLoad === true) {
     document.querySelector("#autoLoad").checked = true;
@@ -334,7 +331,7 @@ function applySettings(settings) {
     }
   }
 } // End
-
+//
 function handleFilePath(imagePath) {
   if (!imagePath) {
     warningEmptyAudio.play();
@@ -350,7 +347,7 @@ function handleFilePath(imagePath) {
   addImageAudio.play();
   display.showAlert("A new image was added to the note", "success");
 } // End handleFilePath(imagePath)
-
+//
 function addImage() {
   let imagePath;
 
@@ -615,7 +612,12 @@ ipcRenderer.on("yearObj:load", (event, data) => {
 //End ipcRenderer.on("year:load"*****************************
 // ***********************************************************
 
-//*************************************************** */
+// *************************************************************
+//  End IPC Code
+// *************************************************************
+// *************************************************************
+//  Year Code
+// *************************************************************
 
 el.yearList.addEventListener("click", (e) => {
   // event delegation
@@ -656,6 +658,9 @@ el.yearList.addEventListener("click", (e) => {
   } // End code to set the active class
 }); // End el.yearList.addEventListener()
 
+// *************************************************************
+//  Month Code
+// *************************************************************
 el.monthList.addEventListener("click", (e) => {
   // event delegation
   if (e.target.classList.contains("month")) {
@@ -691,8 +696,9 @@ el.monthList.addEventListener("click", (e) => {
   } // End code to set the active class
 });
 
-//Note Code**************************************************
-//****************************************************** */
+// *************************************************************
+//  Note Code
+// *************************************************************
 // When the user clicks on a note
 el.noteList.addEventListener("click", (e) => {
   // this gets the data I embedded into the html
@@ -891,32 +897,6 @@ el.noteList.addEventListener("click", (e) => {
   }
 }); // End el.noteList.addEventListener
 
-// saving edited note btn listener
-document.querySelector("#saveEdit").addEventListener("click", (e) => {
-  if (yearIndex < 0 || isNaN(yearIndex)) {
-    warningNameTakenAudio.play();
-    return;
-  }
-  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
-
-  // grab current note
-  // grab current note
-  let note =
-    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[nI];
-  // if note is valid set the new text
-  if (note) {
-    note.text = newNoteText;
-  }
-  addAudio.play();
-  // save year object
-  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
-  renderNotes();
-});
-
-document.querySelector("#editClose").addEventListener("click", (e) => {
-  clickAudio.play();
-});
-
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
@@ -978,8 +958,43 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   document.querySelector("#myTextArea").focus();
 }); //End
 
-// ***********************************************************
-// settings
+// *************************************************************
+//  Edit Note Code
+// *************************************************************
+// when you click on the save edit btn in the modal
+document.querySelector("#saveEdit").addEventListener("click", (e) => {
+  if (yearIndex < 0 || isNaN(yearIndex)) {
+    warningNameTakenAudio.play();
+    return;
+  }
+  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+
+  // grab current note
+  // grab current note
+  let note =
+    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[nI];
+  // if note is valid set the new text
+  if (note) {
+    note.text = newNoteText;
+  }
+  addAudio.play();
+  // save year object
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  renderNotes();
+});
+// when you click on the close Btn on the edit note form
+document.querySelector("#editClose").addEventListener("click", (e) => {
+  clickAudio.play();
+});
+// *************************************************************
+//  End Edit Note Code
+// *************************************************************
+// *************************************************************
+//  End Note Code
+// *************************************************************
+
+// *************************************************************
+//  Settings Code
 // *************************************************************
 // when You click on save settings Btn
 document.querySelector("#settingsSave").addEventListener("click", (e) => {
@@ -1116,3 +1131,6 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
     }
   }
 });
+// *************************************************************
+//  End Settings Code
+// *************************************************************

@@ -72,7 +72,6 @@ ipcMain.on("year:add", (event, name) => {
 // this listens for the addWindow cancel btn
 ipcMain.on("addForm:cancel", (event) => {
   addWindow.close();
-  console.log("cancel clicked");
 }); // End ipcMain.on("addForm:cancel"
 
 //When you click on help
@@ -143,7 +142,6 @@ function loadYear() {
             // set filepath: This is in case you moved your file
             data.fileNamePath = filepath;
             // laod file cab
-            console.log("sending data to script.js");
             // data is an object to be converted to an file cab object
             mainWindow.webContents.send("yearObj:load", data);
           } else {
