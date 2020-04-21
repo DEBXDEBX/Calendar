@@ -2,7 +2,6 @@
 * {
   /* padding will not add to the ACTUALLY WIDTH OF THE BOX */
   box-sizing: border-box;
-
   margin: 0;
   padding: 0;
 }
@@ -18,12 +17,10 @@ a {
 /* Create Variables */
 :root {
   --primary-color: #0f0;
-  --secondary-color: #00f;
 }
 /* use Variables */
 h1 {
   color: var(--primary-color);
-  /* text-shadow: 2px 2px #5320c6; */
   text-align: center;
 }
 
@@ -81,10 +78,6 @@ nav ul li:hover {
 .active {
   color: white;
 }
-/* #monthHeading,
-#transactionHeading {
-  display: none;
-} */
 #monthHeading,
 #settingsForm,
 #noteForm,
@@ -125,6 +118,9 @@ h6 > span {
   color: #007bff;
   font-size: 14px;
 }
+#autoLoadList {
+  margin-left: 40px;
+}
 #settingsForm {
   border: 20px solid white;
   border-radius: 20px;
@@ -135,15 +131,6 @@ h6 > span {
   align-content: center;
   justify-content: center;
   background-color: #aea9ad;
-  align-items: center;
-  padding: 2rem;
-  border-radius: 22px;
-}
-.setAutoListFlex {
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: start;
   align-items: center;
   padding: 2rem;
   border-radius: 22px;
@@ -208,7 +195,6 @@ h3 {
   color: #2de11d;
   margin-left: 20px;
   background-color: transparent;
-  /* outline: none; */
 }
 .edit-note:hover {
   color: white;
