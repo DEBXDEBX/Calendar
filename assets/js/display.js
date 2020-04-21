@@ -20,7 +20,7 @@ class Display {
     container.insertBefore(div, this.elements.noteForm);
     // container.insertBefore(div, this.elements.transactionHeading);
     // Timeout after 4 sec
-    setTimeout(function() {
+    setTimeout(function () {
       document.querySelector(".alert").remove();
     }, displayTime);
   } // End showAlert()
@@ -121,7 +121,7 @@ class Display {
       "#8e7fc7",
       "#ff008b",
       "#17abf5",
-      "#4c69bd"
+      "#4c69bd",
     ];
     // create an array from an array like object
     let newArray = Array.from(tabList);
@@ -219,7 +219,11 @@ class Display {
       title="Delete Note"
       class="delete-item fas fa-trash-alt"
     ></i
-  ><span title='Move Up' class='moveDown'>&dArr;</span></h3>`;
+  ><span title='Move Up' class='moveDown'>&dArr;</span><i class="edit-note fas fa-edit" data-toggle="modal" data-target="#myModal"
+  title="Edit Note"
+  
+></i
+></h3>`;
         newHead.innerHTML = html;
         // insert the head of the note
         this.elements.noteList.appendChild(newHead);

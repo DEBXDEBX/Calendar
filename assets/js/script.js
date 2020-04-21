@@ -370,6 +370,7 @@ function addImage() {
 
 // listen for index.js to set deletemode
 ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
+  $("#myModal").modal("hide");
   // set the delete mode to true or false
   deleteMode = deleteModeBool;
 
@@ -415,6 +416,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
 //listen for index.js to set theme
 ipcRenderer.on("Theme:set", (event, theme) => {
+  $("#myModal").modal("hide");
   // set te current theme
   currentTheme = theme;
   // check if delete mode is on, if so return
@@ -441,6 +443,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
 
 // listen for index.js to show settings form
 ipcRenderer.on("SettingsForm:show", (event) => {
+  $("#myModal").modal("hide");
   loadUpSettingsForm();
   display.showSettingsForm();
 });
@@ -452,6 +455,7 @@ ipcRenderer.on("Display:showAlert", (event, dataObj) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("year:add", (event, dataObj) => {
+  $("#myModal").modal("hide");
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
     // redisplay
@@ -571,6 +575,7 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
 
 // listen for inedex.js to send data
 ipcRenderer.on("yearObj:load", (event, data) => {
+  $("#myModal").modal("hide");
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
@@ -862,7 +867,55 @@ el.noteList.addEventListener("click", (e) => {
     }
     return;
   } // End class name contains note
+
+  // event delegation
+  if (e.target.classList.contains("edit-note")) {
+    // this kicks off the modal
+    // get the index from the html
+    let index = e.target.parentElement.dataset.index;
+    index = parseInt(index);
+    if (isNaN(index)) {
+      return;
+    }
+    nI = index;
+    //set modal text
+    // grab current note
+    let note =
+      arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[
+        nI
+      ];
+
+    document.querySelector("#noteModalTextarea").value = note.text;
+    clickAudio.play();
+    return;
+  }
 }); // End el.noteList.addEventListener
+
+// saving edited note btn listener
+document.querySelector("#saveEdit").addEventListener("click", (e) => {
+  if (yearIndex < 0 || isNaN(yearIndex)) {
+    warningNameTakenAudio.play();
+    return;
+  }
+  let newNoteText = document.querySelector("#noteModalTextarea").value.trim();
+
+  // grab current note
+  // grab current note
+  let note =
+    arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes[nI];
+  // if note is valid set the new text
+  if (note) {
+    note.text = newNoteText;
+  }
+  addAudio.play();
+  // save year object
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  renderNotes();
+});
+
+document.querySelector("#editClose").addEventListener("click", (e) => {
+  clickAudio.play();
+});
 
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", (e) => {

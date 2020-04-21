@@ -232,6 +232,41 @@
  </div>
 </form>
 
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog modal-lg">
+    
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            <h4 class="modal-title">Edit Note</h4>
+          </div>
+          <div class="modal-body">
+            <!-- <p>Some text in the modal.</p> -->
+            
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                autofocus
+                wrap="hard"
+                placeholder="Enter notes here!"
+                id="noteModalTextarea"
+                rows="10"
+                cols="200"
+              ></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button id="saveEdit" type="button" class="btn btn-default" data-dismiss="modal">Save Edit</button>
+            <button id="editClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+     <!-- end of modal  -->
+
     <div class="addSpace"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
