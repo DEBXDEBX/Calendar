@@ -5,6 +5,10 @@
   margin: 0;
   padding: 0;
 }
+/* Create Variables */
+:root {
+  --primary-color: #0f0;
+}
 /* Main Styling */
 html,
 body {
@@ -14,16 +18,10 @@ body {
 a {
   text-decoration: none;
 }
-/* Create Variables */
-:root {
-  --primary-color: #0f0;
-}
-/* use Variables */
 h1 {
   color: var(--primary-color);
   text-align: center;
 }
-
 h6 {
   margin: 10px;
   text-align: center;
@@ -44,7 +42,7 @@ nav ul {
 nav ul li {
   list-style: none;
   background-color: #d0215cbd;
-  color: rgb(0, 0, 0);
+  color: black;
   padding: 3px 10px;
   margin: 4px 10px;
   border-radius: 10px 10px 0px 0px;
@@ -86,7 +84,7 @@ nav ul li:hover {
 }
 h6 > span {
   font-weight: 900;
-  color: #2de11d;
+  color: var(--primary-color);
 }
 
 .addSpace {
@@ -101,7 +99,15 @@ h6 > span {
   max-width: 97%;
   margin: 0 auto;
 }
-
+.year:hover {
+  cursor: pointer;
+}
+.month:hover {
+  cursor: pointer;
+}
+.far:hover {
+  cursor: pointer;
+}
 /* settings form  */
 #settingsForm {
   background-color: white;
@@ -110,9 +116,19 @@ h6 > span {
   margin: 10px;
   font-size: 16px;
 }
+input[type="radio"]:hover {
+  cursor: pointer;
+}
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
 .deleteFile {
   color: red;
   margin: 12px;
+}
+.deleteFile:hover {
+  cursor: pointer;
+  color: #6d0a0a;
 }
 .autoLoad {
   color: #007bff;
@@ -140,7 +156,7 @@ h4 {
   margin: 2px 0px 40px 2px;
   background-color: #0f1313;
   padding: 3px;
-  color: #2de11d;
+  color: var(--primary-color);
 }
 #noteList {
   margin: 10px auto;
@@ -165,14 +181,21 @@ h4 {
 .delete-item:hover {
   margin: 0 16px;
   color: white;
+  cursor: pointer;
 }
 .moveUp {
   color: green;
   display: inline;
 }
+.moveUp:hover {
+  cursor: pointer;
+}
 .moveDown {
   color: blue;
   display: inline;
+}
+.moveDown:hover {
+  cursor: pointer;
 }
 h3 {
   text-align: center;
@@ -189,15 +212,16 @@ h3 {
 .modal-title {
   text-align: center;
   background-color: white;
-  color: #2de11d;
+  color: var(--primary-color);
 }
 .edit-note {
-  color: #2de11d;
+  color: var(--primary-color);
   margin-left: 20px;
   background-color: transparent;
 }
 .edit-note:hover {
   color: white;
+  cursor: pointer;
 }
 .modal-header {
   display: flex;
