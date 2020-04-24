@@ -984,6 +984,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   }
   addAudio.play();
   // save year object
+  display.showAlert("Note updated!", "success", 3000);
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
   renderNotes();
 });
