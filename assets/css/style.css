@@ -70,6 +70,7 @@ nav ul li:hover {
 }
 .black {
   background-color: black;
+  border: 5px solid black;
 }
 .redBorder {
   border: 20px solid red;
