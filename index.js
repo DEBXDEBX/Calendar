@@ -100,7 +100,7 @@ function loadYear() {
   };
   dialog.showOpenDialog(null, myOptions, (fileNames) => {
     if (fileNames === undefined) {
-      let message = "No file selected";
+      let message = "No file selected!";
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
     } else {
@@ -111,7 +111,7 @@ function loadYear() {
 
   function readFileContents(filepath) {
     if (!filepath) {
-      let message = "No file selected";
+      let message = "No file selected!";
       let msgType = "error";
       mainWindow.webContents.send("Display:showAlert", { message, msgType });
       return;
@@ -119,7 +119,7 @@ function loadYear() {
 
     fs.readFile(filepath, "utf-8", (err, data) => {
       if (err) {
-        let message = "An error occured reading the file.";
+        let message = "An error occured reading the file!";
         let msgType = "error";
         mainWindow.webContents.send("Display:showAlert", { message, msgType });
         return;
@@ -127,7 +127,7 @@ function loadYear() {
         try {
           data = JSON.parse(data);
         } catch {
-          let message = "Can not parse data";
+          let message = "Can not parse data!";
           let msgType = "error";
           mainWindow.webContents.send("Display:showAlert", {
             message,
@@ -138,7 +138,6 @@ function loadYear() {
 
         if (data) {
           if (data.fileType === "ElectronCalender2019September") {
-            console.log("This is a valid file");
             // set filepath: This is in case you moved your file
             data.fileNamePath = filepath;
             // laod file cab
@@ -146,7 +145,7 @@ function loadYear() {
             mainWindow.webContents.send("yearObj:load", data);
           } else {
             let message =
-              "This is not a valid ElectronCalender2019September file";
+              "This is not a valid ElectronCalender2019September file!";
             let msgType = "error";
             mainWindow.webContents.send("Display:showAlert", {
               message,

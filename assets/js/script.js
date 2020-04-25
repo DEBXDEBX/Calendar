@@ -900,7 +900,10 @@ el.noteList.addEventListener("click", (e) => {
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
   display.showNoteForm();
-  document.querySelector("#myTextArea").focus();
+
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); // End
 
 // when You click the add note btn in the note form
@@ -938,7 +941,9 @@ document.querySelector("#noteCancel").addEventListener("click", (e) => {
   cancelAudio.play();
   el.noteForm.reset();
   display.displayNone(el.noteForm);
-  document.querySelector("#myTextArea").focus();
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); // End
 
 // when You click the clear btn in the note form
@@ -946,7 +951,9 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
   el.textArea.value = "";
-  document.querySelector("#myTextArea").focus();
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); //End
 
 // when you click on the add Date btn in the note form
@@ -954,7 +961,9 @@ document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
   el.textArea.value = date.toDateString();
-  document.querySelector("#myTextArea").focus();
+  window.setTimeout(function () {
+    document.querySelector("#myTextArea").focus();
+  }, 1000);
 }); //End
 
 // *************************************************************
