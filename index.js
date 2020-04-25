@@ -227,7 +227,7 @@ const menuTemplate = [
         },
       },
       {
-        label: "Delete Mode",
+        label: "Edit and Delete",
         accelerator: process.platform === "darwin" ? "Command+D" : "Ctrl+D",
         click() {
           setDeleteModeTrue();

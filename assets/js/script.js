@@ -94,7 +94,7 @@ function renderNotes() {
       arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes
     );
   } else {
-    console.log("no notes to display");
+    console.log("no notes to display!");
   }
 }
 //
@@ -110,7 +110,7 @@ function pushFileSettingsContainer(filePath) {
   if (isTaken) {
     // warningNameTakenAudio.play();
     warningNameTakenAudio.play();
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
     return;
   }
 
@@ -163,7 +163,7 @@ function autoLoadYearObjects(array) {
 //
 function readFileContents(filepath) {
   if (!filepath) {
-    let message = "No file selected";
+    let message = "No file selected!";
     let msgType = "error";
     display.showAlert(message, msgType);
     return;
@@ -171,7 +171,7 @@ function readFileContents(filepath) {
 
   fs.readFile(filepath, "utf-8", (err, data) => {
     if (err) {
-      let message = "An error occured reading the file.";
+      let message = "An error occured reading the file!";
       let msgType = "error";
       display.showAlert(message, msgType);
       return;
@@ -179,7 +179,7 @@ function readFileContents(filepath) {
       try {
         data = JSON.parse(data);
       } catch {
-        let message = "Can not parse data";
+        let message = "Can not parse data!";
         let msgType = "error";
         display.showAlert(message, msgType);
         return;
@@ -199,7 +199,7 @@ function readFileContents(filepath) {
             }
           });
           if (isTaken) {
-            display.showAlert("That file is already loaded", "error");
+            display.showAlert("That file is already loaded!", "error");
             // redisplay
             // get the names for all the years
             // and then send them to the Display
@@ -224,7 +224,7 @@ function readFileContents(filepath) {
           return;
         } else {
           let message =
-            "This is not a valid ElectronCalender2019September file";
+            "This is not a valid ElectronCalender2019September file!";
           let msgType = "error";
           display.showAlert(message, msgType);
         }
@@ -307,7 +307,7 @@ function applySettings(settings) {
       root.style.fontSize = "24px";
       break;
     default:
-      console.log("No valid font-size");
+      console.log("No valid font-size!");
   }
 
   if (deleteMode === false) {
@@ -326,7 +326,7 @@ function applySettings(settings) {
         currentTheme = "Light";
         break;
       default:
-        console.log("No valid option");
+        console.log("No valid option!");
       // code block
     }
   }
@@ -345,7 +345,7 @@ function handleFilePath(imagePath) {
   // save year object
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
   addImageAudio.play();
-  display.showAlert("A new image was added to the note", "success");
+  display.showAlert("A new image was added to the note!", "success");
 } // End handleFilePath(imagePath)
 //
 function addImage() {
@@ -353,7 +353,7 @@ function addImage() {
 
   dialog.showOpenDialog((fileNames) => {
     if (!fileNames) {
-      display.showAlert("No file selected", "error");
+      display.showAlert("No file selected!", "error");
     } else {
       // got file name
       imagePath = fileNames[0];
@@ -374,7 +374,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
   let paintNote = false;
 
   if (deleteMode) {
-    display.showAlert("You have entered delete mode", "success");
+    display.showAlert("Edit and Delete Mode!", "error");
     myBody.style.backgroundColor = "#d3369c";
     myBody.style.background = "linear-gradient(to right, #180808, #ff0000)";
 
@@ -391,7 +391,7 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
       paintNote = true;
     }
 
-    display.showAlert("You Have exited delete mode", "success");
+    display.showAlert("Read and Write Mode!", "success");
     switch (currentTheme) {
       case "Dark":
         myBody.style.background = "none";
@@ -432,7 +432,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
       deleteMode = false;
       break;
     default:
-      console.log("No valid option");
+      console.log("No valid option!");
     // code block
   }
 });
@@ -481,7 +481,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     return;
   }
   if (dataObj.fileNamePath === undefined) {
-    display.showAlert("You clicked cancel", "error");
+    display.showAlert("You clicked cancel!", "error");
     // redisplay
     // get the names for all the years
     // and then send them to the Display
@@ -498,7 +498,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     }
   });
   if (isTaken) {
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
     // redisplay
     // get the names for all the years
     // and then send them to the Display
@@ -566,7 +566,7 @@ ipcRenderer.on("FontSize:change", (event, fontSize) => {
       root.style.fontSize = "24px";
       break;
     default:
-      console.log("No valid font-size");
+      console.log("No valid font-size!");
   }
 }); // End ipcRenderer.on("FontSize:change"
 
@@ -582,8 +582,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
     }
   });
   if (isTaken) {
-    // warningNameTakenAudio.play();
-    display.showAlert("That file is already loaded", "error");
+    display.showAlert("That file is already loaded!", "error");
     // redisplay
     // get the names for all the years
     // and then send them to the Display
@@ -786,7 +785,7 @@ el.noteList.addEventListener("click", (e) => {
     if (!deleteMode) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to select delete mode in menu to make a deletion",
+        "You have to select Edit and Delete mode in menu to make a deletion!",
         "error"
       );
       return;
@@ -794,7 +793,7 @@ el.noteList.addEventListener("click", (e) => {
     if (!e.ctrlKey) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to hold down ctrl key to make a deletion",
+        "You have to hold down ctrl key to make a deletion!",
         "error"
       );
       return;
@@ -929,7 +928,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
 
   addAudio.play();
-  display.showAlert("A new note was added", "success", 900);
+  display.showAlert("A new note was added!", "success", 900);
 
   renderNotes();
 }); // End
@@ -1110,7 +1109,7 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
     if (!deleteMode) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to select delete mode in menu to make a deletion",
+        "You have to select Edit and Delete mode in menu to make a deletion!",
         "error"
       );
       return;
@@ -1118,7 +1117,7 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
     if (!e.ctrlKey) {
       warningEmptyAudio.play();
       display.showAlert(
-        "You have to hold down ctrl key to make a deletion",
+        "You have to hold down ctrl key to make a deletion!",
         "error"
       );
       return;

@@ -21,5 +21,7 @@ class Elements {
     this.autoLoadList = document.querySelector("#autoLoadList");
     // select message display
     this.messageDisplay = document.querySelector("#displayMessage");
+    // select message border
+    this.messageBorder = document.querySelector("#modalBorder");
   } // End constructor
 } // End Elements class
