@@ -318,7 +318,7 @@ if (process.platform === "darwin") {
 //check for NODE_ENV => prodution, development, staging, test
 //This does not work comment it out before you build
 
-// // //DEVELOPER TOOLS
+// //DEVELOPER TOOLS
 // if (process.env.NODE_ENV !== "production") {
 //   // add object to end of array menu
 //   menuTemplate.push({

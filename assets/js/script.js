@@ -899,6 +899,8 @@ el.noteList.addEventListener("click", (e) => {
 // when You click the + in the Note Heading
 el.addShowFormNote.addEventListener("click", (e) => {
   clickAudio.play();
+  // clear the text Area
+  el.textArea.value = "";
   display.showNoteForm();
 
   window.setTimeout(function () {
@@ -929,7 +931,8 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
 
   // save year object
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
-
+  // clear the text Area
+  el.textArea.value = "";
   addAudio.play();
   display.showAlert("A new note was added!", "success", 900);
 
