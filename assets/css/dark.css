@@ -16,3 +16,6 @@ h6 {
 h6 > span {
   color: #2de11d;
 }
+.active {
+  box-shadow: 3px 2px 4px white;
+}

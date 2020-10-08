@@ -82,6 +82,7 @@ nav ul li:hover {
 
 .active {
   color: white;
+  box-shadow: 3px 2px 4px white;
 }
 #monthHeading,
 #settingsForm,
@@ -157,8 +158,13 @@ input[type="checkbox"]:hover {
   align-items: center;
   padding: 2rem;
   border-radius: 22px;
+  box-shadow: 5px 4px 9px black;
 }
-
+#yearHeading,
+#monthHeading,
+#headingNote {
+  box-shadow: 5px 4px 9px black;
+}
 h4 {
   margin: 2px 0px 40px 2px;
   background-color: #0f1313;
@@ -179,7 +185,8 @@ h4 {
 .note {
   white-space: pre;
   border-radius: 20px;
-  padding: 7px;
+  padding: 14px;
+  box-shadow: 5px 4px 9px black;
 }
 .delete-item {
   margin: 0 16px;
