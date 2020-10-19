@@ -14,6 +14,9 @@ html,
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.7em;
+  transition-duration: 1.7s;
+  transition-delay: 0s;
+  transition-timing-function: linear;
 }
 a {
   text-decoration: none;
@@ -48,6 +51,8 @@ nav ul li {
   border-radius: 10px 10px 0px 0px;
   font-weight: 700;
   font-size: 1.2rem;
+  transition: color 0.3s, box-shadow 0.7s, transform 0.7s;
+  transition-timing-function: cubic-bezier(0.45, 1.87, 0.62, 1.6);
 }
 
 nav ul li:hover {
@@ -83,6 +88,7 @@ nav ul li:hover {
 .active {
   color: white;
   box-shadow: 3px 2px 4px white;
+  transform: scale(1.1);
 }
 #monthHeading,
 #settingsForm,
@@ -175,6 +181,7 @@ h4 {
   margin: 10px auto;
   width: 98%;
 }
+
 #myTextArea {
   margin: 10px auto;
   width: 98%;
@@ -187,6 +194,7 @@ h4 {
   border-radius: 20px;
   padding: 14px;
   box-shadow: 5px 4px 9px black;
+  overflow: auto;
 }
 .delete-item {
   margin: 0 16px;
