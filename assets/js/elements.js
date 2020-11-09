@@ -5,20 +5,19 @@ class Elements {
     this.monthList = document.querySelector("#monthList");
     this.yearOfNotesList = document.querySelector("#yearOfNotesList");
     this.noteList = document.querySelector("#noteList");
+    this.autoLoadList = document.querySelector("#autoLoadList");
     // select headings
     this.yearHeading = document.querySelector("#yearHeading");
     this.monthHeading = document.querySelector("#monthHeading");
     this.nHeading = document.querySelector("#headingNote");
 
-    // // select forms
+    // select forms
     this.noteForm = document.querySelector("#noteForm");
     this.settingsForm = document.querySelector("#settingsForm");
-    // // select add show forms + / icon
-    this.addShowFormNote = document.querySelector("#nadd");
-    // // select textName and textArea
-    this.textArea = document.querySelector("#myTextArea");
-    // // select the autoload list
-    this.autoLoadList = document.querySelector("#autoLoadList");
+    // select add show forms + / icon
+    this.addNoteIcon = document.querySelector("#addNoteIcon");
+    // select textName and textArea
+    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
     // select message display
     this.messageDisplay = document.querySelector("#displayMessage");
     // select message border

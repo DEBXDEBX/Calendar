@@ -702,18 +702,18 @@ el.noteList.addEventListener("click", (e) => {
   nI = deleteIndex;
 
   // this makes sure only one picture in a note shows up in the note area
-  let picArray = [];
-  let el = document.querySelectorAll(".myPic");
+  const picArray = [];
+  const picElements = document.querySelectorAll(".myPic");
   // push all pic index's into an array to loop through next
-  for (let i = 0; i < el.length; i++) {
+  for (const element of picElements) {
     // remove all elements with the class of .myPic
-    let indexP = el[i].getAttribute("data-pIndex");
+    let indexP = element.getAttribute("data-pIndex");
     indexP = parseInt(indexP);
     picArray.push(indexP);
   }
   // loop through picArray and return if the picture is already displayed
-  for (let ii = 0; ii < picArray.length; ii++) {
-    if (picArray[ii] === nI) {
+  for (const item of picArray) {
+    if (item === nI) {
       nI = -243;
       return;
     }
@@ -849,11 +849,6 @@ el.noteList.addEventListener("click", (e) => {
     // check if the alt Key is held down and add Image to note
     if (e.altKey) {
       addImage();
-      // send note array to display: after delay so the path prints
-      setTimeout(function () {
-        renderNotes();
-      }, 4000);
-      // end set Time out
       return;
     }
     // if shift is down remove the current path
@@ -895,14 +890,14 @@ el.noteList.addEventListener("click", (e) => {
 }); // End el.noteList.addEventListener
 
 // when You click the + in the Note Heading
-el.addShowFormNote.addEventListener("click", (e) => {
+el.addNoteIcon.addEventListener("click", (e) => {
   clickAudio.play();
   // clear the text Area
-  el.textArea.value = "";
+  el.noteTextareaInput.value = "";
   display.showNoteForm();
 
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); // End
 
@@ -911,7 +906,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   e.preventDefault();
 
   // create note
-  let noteText = el.textArea.value.trim();
+  let noteText = el.noteTextareaInput.value.trim();
 
   // check if text is empty
   if (noteText === "") {
@@ -930,7 +925,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   // save year object
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
   // clear the text Area
-  el.textArea.value = "";
+  el.noteTextareaInput.value = "";
   addAudio.play();
   display.showAlert("A new note was added!", "success", 900);
 
@@ -943,7 +938,7 @@ document.querySelector("#noteCancel").addEventListener("click", (e) => {
   el.noteForm.reset();
   display.displayNone(el.noteForm);
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); // End
 
@@ -951,9 +946,9 @@ document.querySelector("#noteCancel").addEventListener("click", (e) => {
 document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
-  el.textArea.value = "";
+  el.noteTextareaInput.value = "";
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); //End
 
@@ -961,9 +956,9 @@ document.querySelector("#noteClearTextArea").addEventListener("click", (e) => {
 document.querySelector("#noteDate").addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
-  el.textArea.value = date.toDateString();
+  el.noteTextareaInput.value = date.toDateString();
   window.setTimeout(function () {
-    document.querySelector("#myTextArea").focus();
+    el.noteTextareaInput.focus();
   }, 1000);
 }); //End
 
