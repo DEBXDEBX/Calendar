@@ -1,21 +1,7 @@
 body {
   background-color: white;
 }
-nav ul li {
-  background-color: #00ffffbd;
-  color: rgb(0, 0, 0);
-}
-h4 {
-  background-color: black;
-  color: #2de11d;
-  margin: 2px 0px 40px 2px;
-}
-h6 {
-  background-color: #222543;
-}
-h6 > span {
-  color: #2de11d;
-}
+
 .active {
   box-shadow: 5px 4px 9px black;
 }

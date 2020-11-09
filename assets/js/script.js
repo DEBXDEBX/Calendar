@@ -60,7 +60,7 @@ function startUp() {
     applySettings(settings);
     // update Form
     display.showAutoLoadList(settingsArrayContainer);
-    var x = document.querySelector("#autoLoad").checked;
+    const x = document.querySelector("#autoLoad").checked;
     if (x === true) {
       if (settings.filePathArray) {
         autoLoadYearObjects(settings.filePathArray);
@@ -98,15 +98,23 @@ function renderNotes() {
   }
 }
 //
+function removeActiveClass(element) {
+  if (element) {
+    element.classList.remove("active");
+  }
+}
+//
 function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  settingsArrayContainer.forEach((element) => {
+
+  for (const element of settingsArrayContainer) {
     if (element === filePath) {
       isTaken = true;
     }
-  });
+  }
+
   if (isTaken) {
     // warningNameTakenAudio.play();
     warningNameTakenAudio.play();
@@ -120,8 +128,8 @@ function pushFileSettingsContainer(filePath) {
 //
 function sortArrayByName(array) {
   array.sort(function (a, b) {
-    var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-    var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+    const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.name.toUpperCase(); // ignore upper and lowercase
     if (nameA < nameB) {
       return -1;
     }
@@ -134,11 +142,11 @@ function sortArrayByName(array) {
 }
 //
 function getRadioValue(form, name) {
-  var val;
+  let val;
   // get list of radio buttons with specified name
-  var radios = form.elements[name];
+  const radios = form.elements[name];
   // loop through list of radio buttons
-  for (var i = 0, len = radios.length; i < len; i++) {
+  for (let i = 0, len = radios.length; i < len; i++) {
     if (radios[i].checked) {
       // radio checked?
       val = radios[i].value; // if so, hold its value in val
@@ -156,9 +164,9 @@ function mapOutKey(key, array) {
 }
 //
 function autoLoadYearObjects(array) {
-  array.forEach(function (item) {
+  for (const item of array) {
     readFileContents(item);
-  });
+  }
 }
 //
 function readFileContents(filepath) {
@@ -193,11 +201,13 @@ function readFileContents(filepath) {
           // check if the fileNamePath already exists if it does alert and return
           // make a variable to return
           let isTaken = false;
-          arrayOfYearObjs.forEach((element) => {
+
+          for (const element of arrayOfYearObjs) {
             if (element.fileNamePath === data.fileNamePath) {
               isTaken = true;
             }
-          });
+          }
+
           if (isTaken) {
             display.showAlert("That file is already loaded!", "error");
             // redisplay
@@ -216,7 +226,7 @@ function readFileContents(filepath) {
           arrayOfYearObjs.push(newYearObject);
           sortArrayByName(arrayOfYearObjs);
           // write the file cab object to disk
-          newYearObject.writeYearToHardDisk(fs);
+          newYearObject.writeYearToHardDisk(fs, display);
           // redisplay
           // get the names for all the years
           // and then send them to the Display
@@ -343,7 +353,7 @@ function handleFilePath(imagePath) {
     nI
   ].imagePath = imagePath;
   // save year object
-  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
   addImageAudio.play();
   display.showAlert("A new image was added to the note!", "success");
 } // End handleFilePath(imagePath)
@@ -462,7 +472,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
     renderYearTabs();
     return;
   }
-  if (dataObj.name === "") {
+  if (!dataObj.name) {
     display.showAlert("You did not enter a name for the Year!", "error");
     // redisplay
     // get the names for all the years
@@ -492,11 +502,11 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfYearObjs.forEach((element) => {
+  for (const element of arrayOfYearObjs) {
     if (element.fileNamePath === dataObj.fileNamePath) {
       isTaken = true;
     }
-  });
+  }
   if (isTaken) {
     display.showAlert("That file is already loaded!", "error");
     // redisplay
@@ -537,7 +547,7 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   arrayOfYearObjs.push(newYear);
   sortArrayByName(arrayOfYearObjs);
   // write the year object to disk
-  newYear.writeYearToHardDisk(fs);
+  newYear.writeYearToHardDisk(fs, display);
 
   // redisplay
   // get the names for all the years
@@ -576,11 +586,12 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   // check if the fileNamePath already exists if it does alert and return
   // make a variable to return
   let isTaken = false;
-  arrayOfYearObjs.forEach((element) => {
+
+  for (const element of arrayOfYearObjs) {
     if (element.fileNamePath === data.fileNamePath) {
       isTaken = true;
     }
-  });
+  }
   if (isTaken) {
     display.showAlert("That file is already loaded!", "error");
     // redisplay
@@ -600,7 +611,7 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   arrayOfYearObjs.push(newYear);
   sortArrayByName(arrayOfYearObjs);
   // write the year object to disk
-  newYear.writeYearToHardDisk(fs);
+  newYear.writeYearToHardDisk(fs, display);
   // redisplay
   // get the names for all the years
   // and then send them to the Display
@@ -622,13 +633,9 @@ el.yearList.addEventListener("click", (e) => {
   // event delegation
   if (e.target.classList.contains("year")) {
     //The Next code is to set the current tab color white with the active class
+    const element = document.querySelector(".year.active");
+    removeActiveClass(element);
 
-    let yearList = document.getElementsByClassName("year");
-    // create an array from an array like object
-    let newArray = Array.from(yearList);
-    newArray.forEach((item) => {
-      item.classList.remove("active");
-    });
     // add active class
     e.target.classList.add("active");
 
@@ -648,9 +655,10 @@ el.yearList.addEventListener("click", (e) => {
     renderMonthTabs();
     // New code below display all the notes for the year
     let yearOfNotes = [];
-    arrayOfYearObjs[yearIndex].arrayOfMonthObjects.forEach((month) => {
+
+    for (const month of arrayOfYearObjs[yearIndex].arrayOfMonthObjects) {
       yearOfNotes = [...yearOfNotes, ...month.arrayOfNotes];
-    });
+    }
     display.paintYearOfNotes(yearOfNotes);
   } // End code to set the active class
 }); // End el.yearList.addEventListener()
@@ -661,12 +669,8 @@ el.yearList.addEventListener("click", (e) => {
 el.monthList.addEventListener("click", (e) => {
   // event delegation
   if (e.target.classList.contains("month")) {
-    let monthList = document.getElementsByClassName("month");
-    // create an array from an array like object
-    let newArray = Array.from(monthList);
-    newArray.forEach((item) => {
-      item.classList.remove("active");
-    });
+    const element = document.querySelector(".month.active");
+    removeActiveClass(element);
     // add active class
     e.target.classList.add("active");
     // get the index from the html
@@ -733,7 +737,7 @@ el.noteList.addEventListener("click", (e) => {
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
     btnAudio.play();
     // write to file
-    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
     // redisplay
     // send note array to display
     renderNotes();
@@ -760,7 +764,7 @@ el.noteList.addEventListener("click", (e) => {
     [arr[index], arr[moveTo]] = [arr[moveTo], arr[index]];
     btnAudio.play();
     // write to file
-    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+    arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
     // redisplay
     // send note array to display
     renderNotes();
@@ -772,7 +776,9 @@ el.noteList.addEventListener("click", (e) => {
     // get the index from the html
     let deleteIndex = e.target.parentElement.dataset.index;
     deleteIndex = parseInt(deleteIndex);
-
+    if (isNaN(deleteIndex)) {
+      return;
+    }
     // check if control was down, if so delete note
     if (!deleteMode) {
       warningEmptyAudio.play();
@@ -797,7 +803,7 @@ el.noteList.addEventListener("click", (e) => {
           monthIndex
         ].arrayOfNotes.splice(deleteIndex, 1);
         // write to file
-        arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+        arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
 
         deleteAudio.play();
         display.showAlert("Note deleted!", "success");
@@ -854,7 +860,7 @@ el.noteList.addEventListener("click", (e) => {
     if (e.shiftKey) {
       selectedNote.imagePath = null;
       // write to file
-      arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+      arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
       // reasign current note
       nI = -243;
       deleteAudio.play();
@@ -922,7 +928,7 @@ document.querySelector("#noteAdd").addEventListener("click", (e) => {
   );
 
   // save year object
-  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
   // clear the text Area
   el.textArea.value = "";
   addAudio.play();
@@ -988,7 +994,7 @@ document.querySelector("#saveEdit").addEventListener("click", (e) => {
   addAudio.play();
   // save year object
   display.showAlert("Note updated!", "success", 3000);
-  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs);
+  arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
   renderNotes();
 });
 // when you click on the close Btn on the edit note form
@@ -1131,6 +1137,9 @@ document.querySelector("#autoLoadList").addEventListener("click", (e) => {
         // this gets the data I embedded into the html
         let dataIndex = e.target.parentElement.parentElement.dataset.index;
         let deleteIndex = parseInt(dataIndex);
+        if (isNaN(deleteIndex)) {
+          return;
+        }
         // delete path
         settingsArrayContainer.splice(deleteIndex, 1);
         warningSelectAudio.play();
