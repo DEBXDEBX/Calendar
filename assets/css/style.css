@@ -16,6 +16,7 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.7em;
   transition: background-color 1.7s ease;
+  height: 100vh;
 }
 a {
   text-decoration: none;
