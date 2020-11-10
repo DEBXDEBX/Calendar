@@ -317,7 +317,22 @@ function applySettings(settings) {
       console.log("No valid font-size!");
   }
 
-  if (deleteMode === false) {
+  if (deleteMode) {
+    // set the theme
+    switch (settings.theme) {
+      case "Dark":
+        el.blankCssLink.href = "assets/css/dark.css";
+        break;
+      case "Light":
+        el.blankCssLink.href = "assets/css/light.css";
+        break;
+      default:
+        console.log("No valid option!");
+      // code block
+    }
+  }
+
+  if (!deleteMode) {
     // set the theme
     switch (settings.theme) {
       case "Dark":
@@ -448,7 +463,7 @@ ipcRenderer.on("Theme:set", (event, theme) => {
     }
     return;
   }
-  switch (theme) {
+  switch (currentTheme) {
     case "Dark":
       el.blankCssLink.href = "assets/css/dark.css";
       el.body.style.backgroundColor = "black";
