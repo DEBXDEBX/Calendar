@@ -12,6 +12,7 @@
 /* Main Styling */
 html,
 body {
+  background-color: black;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   line-height: 1.7em;
   transition: background-color 1.7s ease;
@@ -193,17 +194,20 @@ h4 {
   border-radius: 20px;
 }
 .note {
-  /* white-space: pre;
-  border-radius: 20px;
-  padding: 14px;
-  box-shadow: 5px 4px 9px black;
-  overflow: auto; */
   white-space: pre;
   background-color: #202020;
   border-radius: 10px 10px 0px 0px;
   padding: 14px;
   overflow: auto;
 }
+.yearOfNotesNote {
+  white-space: pre;
+  background-color: #202020;
+  border-radius: 10px 10px 0px 0px;
+  padding: 14px;
+  overflow: auto;
+}
+
 .delete-item {
   margin: 0 16px;
   color: #161313;

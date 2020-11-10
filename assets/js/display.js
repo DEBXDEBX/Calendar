@@ -201,7 +201,7 @@ class Display {
 
     noteArray.forEach((note, index) => {
       let newElement = document.createElement("h4");
-      newElement.className = "note";
+      newElement.className = "yearOfNotesNote";
       newElement.setAttribute("data-index", `${index}`);
       newElement.appendChild(document.createTextNode(`${note.text}`));
       // insert the note

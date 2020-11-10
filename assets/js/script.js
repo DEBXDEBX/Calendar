@@ -68,23 +68,18 @@ function startUp() {
 //*************************************************** */
 // Helper functions
 //*************************************************** */
-//
+//************************************************** */
 function renderYearTabs() {
-  // redisplay
-  // get the names for all the years
-  // and then send them to the Display
   display.paintYearTabs(mapOutKey("name", arrayOfYearObjs));
 }
-//
+//************************************************** */
 function renderMonthTabs() {
-  // get the array of months and send it to display
   display.paintMonthTabs(
     mapOutKey("name", arrayOfYearObjs[yearIndex].arrayOfMonthObjects)
   );
 }
-//
+//************************************************** */
 function renderNotes() {
-  // send the note array to the Display
   if (arrayOfYearObjs[yearIndex].arrayOfMonthObjects[monthIndex].arrayOfNotes) {
     display.paintNotes(
       deleteMode,
@@ -94,16 +89,16 @@ function renderNotes() {
     console.log("no notes to display!");
   }
 }
-//
+//***************************************************** */
 function removeActiveClass(element) {
   if (element) {
     element.classList.remove("active");
   }
 }
-//
+//**************************************************** */
 function pushFileSettingsContainer(filePath) {
   // check if the fileNamePath already exists if it does alert and return
-  // make a variable to return
+  // make a variable to check
   let isTaken = false;
 
   for (const element of settingsArrayContainer) {
@@ -113,7 +108,6 @@ function pushFileSettingsContainer(filePath) {
   }
 
   if (isTaken) {
-    // warningNameTakenAudio.play();
     warningNameTakenAudio.play();
     display.showAlert("That file is already loaded!", "error");
     return;
@@ -122,7 +116,7 @@ function pushFileSettingsContainer(filePath) {
   // add it too tempHOld
   settingsArrayContainer.push(filePath);
 }
-//
+//***************************************************** */
 function sortArrayByName(array) {
   array.sort(function (a, b) {
     const nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -133,11 +127,10 @@ function sortArrayByName(array) {
     if (nameA > nameB) {
       return 1;
     }
-    // names must be eimagePathual
     return 0;
   }); //End sort function
 }
-//
+//*************************************************** */
 function getRadioValue(form, name) {
   let val;
   // get list of radio buttons with specified name
@@ -152,7 +145,7 @@ function getRadioValue(form, name) {
   }
   return val; // return value of checked radio or undefined if none checked
 }
-//
+//****************************************************** */
 function mapOutKey(key, array) {
   const newArray = array.map(function (item) {
     return item[key];
@@ -165,7 +158,7 @@ function autoLoadYearObjects(array) {
     readFileContents(item);
   }
 }
-//
+//*************************************************** */
 function readFileContents(filepath) {
   if (!filepath) {
     let message = "No file selected!";
@@ -207,9 +200,6 @@ function readFileContents(filepath) {
 
           if (isTaken) {
             display.showAlert("That file is already loaded!", "error");
-            // redisplay
-            // get the names for all the years
-            // and then send them to the Display
             renderYearTabs();
             return;
           }
@@ -224,9 +214,6 @@ function readFileContents(filepath) {
           sortArrayByName(arrayOfYearObjs);
           // write the file cab object to disk
           newYearObject.writeYearToHardDisk(fs, display);
-          // redisplay
-          // get the names for all the years
-          // and then send them to the Display
           renderYearTabs();
           return;
         } else {
@@ -239,7 +226,7 @@ function readFileContents(filepath) {
     }
   });
 }
-//
+//************************************************* */
 function loadUpSettingsForm() {
   let settingsStorage = new SettingsStorage();
   let settings = settingsStorage.getSettingsFromFile();
@@ -291,11 +278,9 @@ function loadUpSettingsForm() {
   // update autoload form ul
   display.showAutoLoadList(settingsArrayContainer);
 } // End loadUpSettingsForm()
-//
+//*********************************************** */
 function applySettings(settings) {
-  if (settings.autoLoad === true) {
-    el.autoLoadCheckBox.checked = true;
-  }
+  el.autoLoadCheckBox.checked = settings.autoLoad;
 
   switch (settings.fontSize) {
     case "x-small":
@@ -330,9 +315,7 @@ function applySettings(settings) {
         console.log("No valid option!");
       // code block
     }
-  }
-
-  if (!deleteMode) {
+  } else {
     // set the theme
     switch (settings.theme) {
       case "Dark":
@@ -347,11 +330,10 @@ function applySettings(settings) {
         break;
       default:
         console.log("No valid option!");
-      // code block
     }
   }
 } // End
-//
+//**************************************************** */
 function handleFilePath(imagePath) {
   if (!imagePath) {
     warningEmptyAudio.play();
@@ -393,17 +375,16 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
 
   let paintNote = false;
 
+  // check for notes
+  let htmlNotes = document.querySelectorAll(".note");
+  if (htmlNotes.length > 0) {
+    paintNote = true;
+  }
+
   if (deleteMode) {
     display.showAlert("Edit and Delete Mode!", "error");
     el.body.style.backgroundColor = "#d3369c";
     el.body.style.background = "linear-gradient(to right, #180808, #ff0000)";
-
-    // check for notes
-    let htmlNotes = document.querySelectorAll(".note");
-
-    if (htmlNotes.length > 0) {
-      paintNote = true;
-    }
 
     switch (currentTheme) {
       case "Dark":
@@ -416,12 +397,6 @@ ipcRenderer.on("deleteMode:set", (event, deleteModeBool) => {
         console.log("No Match");
     }
   } else {
-    // check for notes
-    let htmlNotes = document.querySelectorAll(".note");
-    if (htmlNotes.length > 0) {
-      paintNote = true;
-    }
-
     display.showAlert("Read and Write Mode!", "success");
     switch (currentTheme) {
       case "Dark":
@@ -498,36 +473,24 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   $("#myModal").modal("hide");
   if (!dataObj.fileNamePath) {
     display.showAlert("You did not enter a path!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
   }
   if (!dataObj.name) {
     display.showAlert("You did not enter a name for the Year!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
   }
   if (isNaN(Number(dataObj.name))) {
     display.showAlert("You did not enter a number for the Year!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
   }
-  if (dataObj.fileNamePath === undefined) {
+  if (!dataObj.fileNamePath) {
     display.showAlert("You clicked cancel!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
@@ -542,9 +505,6 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   }
   if (isTaken) {
     display.showAlert("That file is already loaded!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
@@ -581,10 +541,6 @@ ipcRenderer.on("year:add", (event, dataObj) => {
   sortArrayByName(arrayOfYearObjs);
   // write the year object to disk
   newYear.writeYearToHardDisk(fs, display);
-
-  // redisplay
-  // get the names for all the years
-  // and then send them to the Display
   display.hideSettingsForm();
   renderYearTabs();
 });
@@ -627,9 +583,6 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   }
   if (isTaken) {
     display.showAlert("That file is already loaded!", "error");
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     display.hideSettingsForm();
     renderYearTabs();
     return;
@@ -645,9 +598,6 @@ ipcRenderer.on("yearObj:load", (event, data) => {
   sortArrayByName(arrayOfYearObjs);
   // write the year object to disk
   newYear.writeYearToHardDisk(fs, display);
-  // redisplay
-  // get the names for all the years
-  // and then send them to the Display
   display.hideSettingsForm();
   renderYearTabs();
   return;
@@ -677,8 +627,6 @@ el.yearList.addEventListener("click", (e) => {
     index = parseInt(index);
     // Bug fix
     if (isNaN(index)) {
-      //when you click out side of te tab
-      // if it's not a number return
       return;
     }
 
@@ -712,8 +660,6 @@ el.monthList.addEventListener("click", (e) => {
 
     // Bug fix
     if (isNaN(index)) {
-      //when you click out side of te tab
-      // if it's not a number return
       return;
     }
     monthIndex = index;
@@ -771,8 +717,6 @@ el.noteList.addEventListener("click", (e) => {
     btnAudio.play();
     // write to file
     arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
-    // redisplay
-    // send note array to display
     renderNotes();
     // return
     return;
@@ -798,8 +742,6 @@ el.noteList.addEventListener("click", (e) => {
     btnAudio.play();
     // write to file
     arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
-    // redisplay
-    // send note array to display
     renderNotes();
     // return
     return;
@@ -837,10 +779,8 @@ el.noteList.addEventListener("click", (e) => {
         ].arrayOfNotes.splice(deleteIndex, 1);
         // write to file
         arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
-
         deleteAudio.play();
         display.showAlert("Note deleted!", "success");
-        // send note array to display
         renderNotes();
       }
     } // End control key down
@@ -916,7 +856,7 @@ el.noteList.addEventListener("click", (e) => {
         nI
       ];
 
-    el.noteModalTextarea.value = note.text;
+    el.noteModalTextArea.value = note.text;
     clickAudio.play();
     return;
   }
@@ -926,11 +866,11 @@ el.noteList.addEventListener("click", (e) => {
 el.addNoteIcon.addEventListener("click", (e) => {
   clickAudio.play();
   // clear the text Area
-  el.noteTextareaInput.value = "";
+  el.noteTextAreaInput.value = "";
   display.showNoteForm();
 
   window.setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); // End
 
@@ -939,10 +879,10 @@ el.addNoteSubmitBtn.addEventListener("click", (e) => {
   e.preventDefault();
 
   // create note
-  let noteText = el.noteTextareaInput.value.trim();
+  let noteText = el.noteTextAreaInput.value.trim();
 
   // check if text is empty
-  if (noteText === "") {
+  if (!noteText) {
     warningEmptyAudio.play();
     display.showAlert("Please enter note in the text area!", "error");
     return;
@@ -958,7 +898,7 @@ el.addNoteSubmitBtn.addEventListener("click", (e) => {
   // save year object
   arrayOfYearObjs[yearIndex].writeYearToHardDisk(fs, display);
   // clear the text Area
-  el.noteTextareaInput.value = "";
+  el.noteTextAreaInput.value = "";
   addAudio.play();
   display.showAlert("A new note was added!", "success", 900);
 
@@ -971,7 +911,7 @@ el.noteCancelBtn.addEventListener("click", (e) => {
   el.noteForm.reset();
   display.displayNone(el.noteForm);
   window.setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); // End
 
@@ -979,9 +919,9 @@ el.noteCancelBtn.addEventListener("click", (e) => {
 el.noteClearTextAreaBtn.addEventListener("click", (e) => {
   btnAudio.play();
   // clear the text Area
-  el.noteTextareaInput.value = "";
+  el.noteTextAreaInput.value = "";
   window.setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); //End
 
@@ -989,9 +929,9 @@ el.noteClearTextAreaBtn.addEventListener("click", (e) => {
 el.noteAddDateBtn.addEventListener("click", (e) => {
   btnAudio.play();
   let date = new Date();
-  el.noteTextareaInput.value = date.toDateString();
+  el.noteTextAreaInput.value = date.toDateString();
   window.setTimeout(function () {
-    el.noteTextareaInput.focus();
+    el.noteTextAreaInput.focus();
   }, 1000);
 }); //End
 
@@ -1004,9 +944,9 @@ el.saveEditedNoteBtn.addEventListener("click", (e) => {
     warningNameTakenAudio.play();
     return;
   }
-  let newNoteText = el.noteModalTextarea.value.trim();
+  let newNoteText = el.noteModalTextArea.value.trim();
   // check if text is empty
-  if (newNoteText === "") {
+  if (!newNoteText) {
     warningEmptyAudio.play();
     display.showAlert("Please enter text in the text area!", "error");
     return;
@@ -1075,9 +1015,6 @@ el.saveSettingsSubmitBtn.addEventListener("click", (e) => {
     applySettings(settingsObj);
     // hide form
     display.displayNone(el.settingsForm);
-    // redisplay
-    // get the names for all the years
-    // and then send them to the Display
     renderYearTabs();
     return;
   }
@@ -1088,9 +1025,6 @@ el.settingsCancelBtn.addEventListener("click", (e) => {
   cancelAudio.play();
   // hide form
   display.displayNone(el.settingsForm);
-  // redisplay
-  // get the names for all the years
-  // and then send them to the Display
   renderYearTabs();
   return;
 });
@@ -1119,7 +1053,7 @@ el.settingsAddPathBtn.addEventListener("click", (e) => {
   };
 
   dialog.showOpenDialog(null, myOptions, (fileNames) => {
-    if (fileNames === undefined || fileNames.length === 0) {
+    if (!fileNames || fileNames.length === 0) {
       display.showAlert("No file selected", "error");
     } else {
       // got file name

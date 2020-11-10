@@ -10,7 +10,6 @@ class Elements {
     this.yearHeading = document.querySelector("#yearHeading");
     this.monthHeading = document.querySelector("#monthHeading");
     this.nHeading = document.querySelector("#headingNote");
-
     // select forms
     this.noteForm = document.querySelector("#noteForm");
     this.settingsForm = document.querySelector("#settingsForm");
@@ -27,17 +26,15 @@ class Elements {
     this.settingsCancelBtn = document.querySelector("#settingsCancelBtn");
     this.factoryResetBtn = document.querySelector("#factoryResetBtn");
     this.settingsAddPathBtn = document.querySelector("#settingsAddPathBtn");
-
     // select add show forms + / icon
     this.addNoteIcon = document.querySelector("#addNoteIcon");
     // select textName and textArea
-    this.noteTextareaInput = document.querySelector("#noteTextareaInput");
-    this.noteModalTextarea = document.querySelector("#noteModalTextarea");
+    this.noteTextAreaInput = document.querySelector("#noteTextAreaInput");
+    this.noteModalTextArea = document.querySelector("#noteModalTextArea");
     // select message display
     this.messageDisplay = document.querySelector("#displayMessage");
     // select message border
     this.messageBorder = document.querySelector("#modalBorder");
-
     this.autoLoadCheckBox = document.querySelector("#autoLoadCheckBox");
     // this is for the fontSize
     this.root = document.querySelector(":root");
