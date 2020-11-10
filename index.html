@@ -24,7 +24,7 @@
 
     <!-- My CSS File -->
     <link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-    <link id="blank" rel="stylesheet" type="text/css" href="" />
+    <link id="blankCssLink" rel="stylesheet" type="text/css" href="" />
 
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon" />
     <title>Calender</title>
@@ -97,7 +97,7 @@
 
       <div class="form-group">
         <input
-          id="noteAdd"
+          id="addNoteSubmitBtn"
           type="submit"
           class="btn btn-primary form-control"
           value="Add Note"
@@ -106,7 +106,7 @@
 
       <div class="form-group">
         <button
-          id="noteClearTextArea"
+          id="noteClearTextAreaBtn"
           class="btn btn-dark form-control"
           type="button"
         >
@@ -115,14 +115,14 @@
       </div>
 
       <div class="form-group">
-        <button id="noteDate" class="btn btn-info form-control" type="button">
+        <button id="noteAddDateBtn" class="btn btn-info form-control" type="button">
           Add Date
         </button>
       </div>
 
       <div class="form-group">
         <button
-          id="noteCancel"
+          id="noteCancelBtn"
           class="btn btn-warning form-control"
           type="button"
         >
@@ -145,11 +145,11 @@
         <label for="theme">Pick a theme</label>
 
         <div>
-          <input id="Dark" type="radio" name="theme" value="Dark" checked />
+          <input id="darkRadio" type="radio" name="theme" value="Dark" checked />
           Dark
         </div>
         <div>
-          <input id="Light" type="radio" name="theme" value="Light" /> Light
+          <input id="lightRadio" type="radio" name="theme" value="Light" /> Light
         </div>
       </div>
 
@@ -157,24 +157,24 @@
       <div class="form-group setFlex">
         <label for="fontSize">Pick a font size</label>
         <div>
-          <input id="x-small" type="radio" name="fontSize" value="x-small" />
+          <input id="xSmallRadio" type="radio" name="fontSize" value="x-small" />
           x-small
-          <input id="small" type="radio" name="fontSize" value="small" /> small
+          <input id="smallRadio" type="radio" name="fontSize" value="small" /> small
           <input
-            id="normal"
+            id="normalRadio"
             type="radio"
             name="fontSize"
             value="normal"
             checked
           />
           normal
-          <input id="large" type="radio" name="fontSize" value="large" /> large
-          <input id="x-large" type="radio" name="fontSize" value="x-large" />
+          <input id="largeRadio" type="radio" name="fontSize" value="large" /> large
+          <input id="xLargeRadio" type="radio" name="fontSize" value="x-large" />
           x-large
         </div>
       </div>
 
-      <div><input id="autoLoad" type="checkbox" /> Auto Load Year's</div>
+      <div><input id="autoLoadCheckBox" type="checkbox" /> Auto Load Year's</div>
 
       <div>
         <ol type="1" id="autoLoadList">
@@ -185,7 +185,7 @@
       <div class="form-group">
         <button
           class="btn btn-primary form-control"
-          id="settingsAddPath"
+          id="settingsAddPathBtn"
           type="button"
         >
           Add File To Auto Load List
@@ -193,7 +193,7 @@
       </div>
       <div class="form-group">
         <input
-          id="settingsSave"
+          id="saveSettingsSubmitBtn"
           class="btn btn-success form-control"
           type="submit"
           value="Save Settings"
@@ -202,7 +202,7 @@
 
       <div class="form-group">
         <button
-          id="factoryReset"
+          id="factoryResetBtn"
           class="btn btn-danger form-control"
           type="button"
         >
@@ -212,7 +212,7 @@
 
       <div class="form-group">
         <button
-          id="settingsCancel"
+          id="settingsCancelBtn"
           class="btn btn-warning form-control"
           type="button"
         >
@@ -247,7 +247,7 @@
           </div>
           <div class="modal-footer">
             <button
-              id="saveEdit"
+              id="saveEditedNoteBtn"
               type="button"
               class="btn btn-primary"
               data-dismiss="modal"
@@ -255,7 +255,7 @@
               Save Edit
             </button>
             <button
-              id="editClose"
+              id="editNoteCloseBtn"
               type="button"
               class="btn btn-warning"
               data-dismiss="modal"
